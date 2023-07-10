@@ -11,7 +11,7 @@ const InteractionChart = ({ dates, data }: Props) => {
     const lineChartsParams = {
         series: [{ label: 'Interaction Over Time', data: data }],
         sx: { '--ChartsLegend-itemWidth': '200px', },
-        width: 1200,
+
         height: 400,
     };
     let previousDate = dates[0]
@@ -35,14 +35,16 @@ const InteractionChart = ({ dates, data }: Props) => {
 
     return (
         <>
-            <Container sx={{top:'-150px', position:'relative', bgcolor:'white', borderRadius:'10px', marginBottom:'-150px'}}>
+            <Container sx={{ top: '-150px', position: 'relative', borderRadius: '10px', marginBottom: '-150px' }}>
 
                 <LineChart
                     {...lineChartsParams}
-                    sx={{ '& .MuiMarkElement-root': { display: 'none' } }}
+                    sx={{ '& .MuiMarkElement-root': { display: 'none' },  bgcolor: '#181a1c' }}
                     xAxis={[{ data: dates, scaleType: 'time', valueFormatter: yearFormater }]}
                     yAxis={[{ scaleType: 'linear' }]}
                     series={lineChartsParams.series.map((s) => ({ ...s }))}
+                    colors={['white']}
+
 
                 />
 

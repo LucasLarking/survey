@@ -13,7 +13,7 @@ import Header from './Header';
 import InteractionChart from './InteractionChart';
 import CardFacts from './CardFacts';
 import SplitCards from './SplitCards';
-import Filter from './Filter';
+
 
 
 const Dashboard = () => {
@@ -35,15 +35,15 @@ const Dashboard = () => {
 
     return (
 
-        <>
+        <Box >
 
             <Header survey={survey.survey} />
             <InteractionChart data={survey.interaction_data} dates={dates} />
             <CardFacts />
             <SplitCards completion_rate={survey.completion_rate}  average_completion_time={survey.average_completion_time}/>
-            <Filter />
-            <Container sx={{mb:40, mt:10}}>
-
+         
+            <Box sx={{mb:40, mt:10}}>
+            
                 {questions.map((question) => (
                     <Box sx={{mb:10}} key={question.id} className="question">
                         <QuestionChart question={question} />
@@ -52,8 +52,8 @@ const Dashboard = () => {
 
 
 
-            </Container>
-        </>
+            </Box>
+        </Box>
     )
 }
 

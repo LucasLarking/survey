@@ -1,9 +1,7 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, Button, FormControl, Input, TextField, Typography } from '@mui/material'
-import React from 'react'
-import { useForm, FieldValues } from 'react-hook-form'
+
+import { Box, Button, FormControl, TextField, Typography } from '@mui/material'
+import { FieldValues, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import useAddQuestion from '../question/hooks/useAddQuestion'
 import useSendMail from './hooks/useSendMail'
 
 const Email = () => {
@@ -37,7 +35,7 @@ const Email = () => {
                 <FormControl fullWidth>
                     <TextField fullWidth  {...register('email')} error={!!errors['email']} helperText={errors.email?.message} placeholder='Enter Email Address' variant="standard" />
                 </FormControl>
-              
+
                 <Button variant="contained" disableElevation onClick={handleSubmit(formSubmit)}>
                     Submit
                 </Button>
@@ -48,3 +46,4 @@ const Email = () => {
 }
 
 export default Email
+
