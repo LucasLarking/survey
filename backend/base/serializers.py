@@ -1,6 +1,15 @@
 from datetime import timedelta
 from rest_framework import serializers
-from .models import Question, Survey, Option, Vote, Interaction, Member, InteractionItem
+from .models import (
+    Question,
+    Survey,
+    Option,
+    Vote,
+    Interaction,
+    Member,
+    InteractionItem,
+    FilterObj
+)
 from django.http import HttpResponseRedirect
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import permissions
@@ -49,17 +58,6 @@ class SurveySerializer(serializers.ModelSerializer):
             else:
                 raise serializers.ValidationError(
                     'You are not the owner of this survey')
-
-    # def destroy(self, instance):
-    #     print('instacn', instance)
-    #     survey = self.instance
-    #     request = self.context['request']
-
-    #     if survey.user == request.user:
-    #         survey.delete()
-    #     else:
-    #         raise serializers.ValidationError('You are not the owner of this survey')
-
 
 class VoteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -169,18 +167,20 @@ class QuestionSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'You are not the owner of this survey')
 
+
 class ExtendedQuestionSerializer(serializers.ModelSerializer):
     options = serializers.SerializerMethodField()
+
     class Meta:
         model = Question
         fields = ['id', 'question', 'survey', 'options']
         read_only_fields = ['id', 'survey', 'options']
 
-
     def get_options(self, instance):
         options = instance.options.all()
         serializer = OptionSerializer(options, many=True)
         return serializer.data
+
 
 class TotalViewSerialiser(serializers.ModelSerializer):
     vote_count = serializers.SerializerMethodField()
@@ -190,6 +190,7 @@ class TotalViewSerialiser(serializers.ModelSerializer):
         fields = ['id', 'option', 'vote_count']
 
     def get_vote_count(self, obj):
+        print('not_allowed', obj.question, obj.interactionitem_set.all())
         return obj.votes.count()
 
 
@@ -236,74 +237,86 @@ class FullSurveySerializer(serializers.ModelSerializer):
             'average_completion_time'
         ]
 
+    def qs(self, instance):
+
+        qs = instance.interactions.filter(~Q(completed__isnull=True)).distinct()
+
+        return qs
+
     def get_question_count(self, instance):
         return instance.questions.count()
 
     def get_interaction_dates(self, instance):
-        interactions = instance.interactions.all()
-        if interactions.exists():
-            first_interaction = interactions.first().completed
-            last_interaction = interactions.last().completed
+        qs = self.qs(instance)
+
+        if qs.exists():
+            first_interaction = qs.first().completed
+            last_interaction = qs.last().completed
             time_difference = last_interaction - first_interaction
             interval = time_difference / 20
             dates = [first_interaction + interval * i for i in range(21)]
-            # Replace the last date with the last_interaction
             dates[-1] = last_interaction
             return dates
         return []
 
     def get_interaction_data(self, instance):
-        interactions = instance.interactions.all()
-        if interactions.exists():
-            first_interaction = interactions.first().completed
-            last_interaction = interactions.last().completed
+        qs = self.qs(instance)
+        if qs.exists():
+            first_interaction = qs.first().completed
+            last_interaction = qs.last().completed
             time_difference = last_interaction - first_interaction
             interval = time_difference / 20
             data = []
             for i in range(20):
                 start_time = first_interaction + interval * i
                 end_time = first_interaction + interval * (i + 1)
-                count = interactions.filter(
+                count = qs.filter(
                     completed__gte=start_time, completed__lt=end_time).count()
                 data.append(count)
-            # Append count of last interaction
-            data.append(interactions.filter(
+
+            data.append(qs.filter(
                 completed__gte=last_interaction).count())
             return data
         return []
 
     def get_interaction_count(self, instance):
-        # print('coint', instance.interactions.count())
+        qs = self.qs(instance)
         try:
-            return instance.interactions.count()
+            return qs.count()
         except AttributeError:
             return 0
 
     def get_daily_interaction_count(self, instance):
+
+        qs = self.qs(instance)
+
         try:
-            first_interaction = instance.interactions.first().completed
+            first_interaction = qs.first().completed
         except AttributeError:
             return 0
-        last_interaction = instance.interactions.last().completed
+        last_interaction = qs.last().completed
         time_difference = (last_interaction - first_interaction).days
-        interaction_cont = instance.interactions.count()
+        interaction_cont = qs.count()
 
         if time_difference == 0:
             return interaction_cont
         return int(interaction_cont // time_difference)
 
     def get_interaction_count_this_week(self, instance):
+        qs = self.qs(instance)
         seven_days_ago = timezone.now() - timedelta(days=7)
         try:
-            qs = instance.interactions.filter(
+            qs = qs.filter(
                 completed__gte=seven_days_ago).count()
         except AttributeError:
             return 0
-        print('last 7', qs)
+
         return qs
 
     def get_completion_rate(self, instance):
-        completed = Interaction.objects.filter(
+        qs = self.qs(instance)
+
+        completed = qs.filter(
             Q(completed__isnull=False, survey=instance)).count()
         total = Interaction.objects.filter(Q(survey=instance)).count()
         completion_rate = round(((completed / total) * 100), 2)
@@ -311,11 +324,14 @@ class FullSurveySerializer(serializers.ModelSerializer):
         return completion_rate
 
     def get_average_completion_time(self, instance):
-        average_time_difference = Interaction.objects.exclude(completed__isnull=True).annotate(
+        qs = self.qs(instance)
+        average_time_difference = qs.exclude(completed__isnull=True).annotate(
             time_difference=F('completed') - F('started')
         ).aggregate(avg_time=Avg('time_difference'))
         print(average_time_difference)
-        return average_time_difference
+        if average_time_difference['avg_time']:
+            return average_time_difference
+        return 0
 
 
 class MemberSerializer(serializers.ModelSerializer):
@@ -368,27 +384,34 @@ class InteractionItemSerializer(serializers.ModelSerializer):
         question_id = self.validated_data['question']
         option_id = self.validated_data['option']
 
+        print('NUMBER #', Interaction.objects.filter(
+            user=request.user, survey=self.context['survey']).count())
         interactions = Interaction.objects.filter(
-            user=request.user, survey=self.context['survey'])
+            user=request.user, survey=self.context['survey']).first()
 
-        for interaction in interactions:
-            if interaction.id != int(self.context['interaction']):
-                interaction.delete()
+        if interactions:
+            print('interaction', interactions)
+            for interaction in Interaction.objects.filter(user=request.user, survey=self.context['survey']):
+                if interaction.id != int(self.context['interaction']):
+                    interaction.delete()
+            #     else:
+            #         interaction_obj = interaction
+    # härrrrrrr
+
+            if InteractionItem.objects.filter(question=question_id, interaction__user_id=request.user).exists():
+                self.instance = InteractionItem.objects.get(
+                    question=question_id, interaction__user_id=request.user)
+                self.instance.option = option_id
+                self.instance.save()
             else:
-                interaction_obj = interaction
+                self.instance = InteractionItem.objects.create(
+                    option=option_id,
+                    question=question_id,
+                    interaction=interactions
+                )
 
-        if InteractionItem.objects.filter(question=question_id).exists():
-            self.instance = InteractionItem.objects.get(question=question_id)
-            self.instance.option = option_id
-            self.instance.save()
-        else:
-            self.instance = InteractionItem.objects.create(
-                option=option_id,
-                question=question_id,
-                interaction=interaction_obj
-            )
-
-        return self.instance
+            return self.instance
+        return 1
 
 
 class GetInteractionItemsSerializer(serializers.ModelSerializer):
@@ -427,4 +450,26 @@ class InteractionSubmitSerializer(serializers.ModelSerializer):
             ]
 
             Vote.objects.bulk_create(votes)
+            return self.instance
+
+
+class FilterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FilterObj
+        fields = ['id', 'option', 'question', 'survey']
+        read_only_fields = ['id', 'survey']
+
+    def save(self, **kwargs):
+        print(self.context)
+
+        request = self.context['request']
+        if request.method == 'POST':
+            print(self.context)
+
+            (self.instance, created) = FilterObj.objects.get_or_create(
+                survey=Survey.objects.get(id=int(self.context['survey'])),
+                option=self.validated_data['option'],
+                question=self.validated_data['question'],
+            )
+
             return self.instance

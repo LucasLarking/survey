@@ -3,11 +3,13 @@ import { Box, Button, Container, FormControl, InputLabel, MenuItem, Select, Sele
 import React from 'react';
 import useGetExtendedQuestions from '../question/hooks/useGetExtendedQuestion';
 import { useParams } from 'react-router-dom';
+import useGetFilters from './filter/hooks/useGetFilters';
 
 const Filter = () => {
     const { slug } = useParams();
     const survey_id = parseInt(slug!);
     const { data: questions, isLoading, error } = useGetExtendedQuestions(survey_id)
+    const { data: filters, isLoading: filterLoading, error: filterError } = useGetFilters(survey_id)
     const [age, setAge] = React.useState('');
     // const containerStyle: React.CSSProperties = {
     //     backgroundColor: '#f5f5f5',
@@ -31,6 +33,8 @@ const Filter = () => {
 
     if (error) return <p>error</p>
     if (isLoading) return <p> ssss</p>
+    if (filterError) return <p>error</p>
+    if (filterLoading) return <p> ssss</p>
 
     
 
@@ -40,7 +44,9 @@ const Filter = () => {
 
     return (
         <>
-
+            {filters.map((filter) => (
+                <p key={filter.id}>{filter.option}</p>
+            ))}
 
             <Container sx={{ height: '500px' }}>
                 <Box className="filterHeader" sx={{ display: 'flex', width: '100%' }}>

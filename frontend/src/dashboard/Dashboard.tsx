@@ -28,7 +28,7 @@ const Dashboard = () => {
     if (survey_loading) return <p></p>
     if (error) return <ErrorPage />
     if (isLoading) return <p> ssss</p>
-
+    console.log(survey)
 
 
     const dates: Date[] = survey.interaction_dates.map((dateString) => new Date(dateString));

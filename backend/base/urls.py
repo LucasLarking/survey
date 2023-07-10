@@ -10,6 +10,7 @@ from base.views import (
     EmailView,
     MemberViewSet,
     InteractionViewSet,
+    FilterObjViewSet
 
     )
 from .models import Survey
@@ -20,6 +21,7 @@ router.register('surveys', SurveyViewSet)
 
 survey_router = routers.NestedDefaultRouter(router, 'surveys', lookup='survey')
 survey_router.register('questions', QuestionViewSet, basename='survey-question')
+survey_router.register('filterObjs', FilterObjViewSet, basename='survey-filterObjs')
 
 survey_router.register('interactions', InteractionViewSet, basename='survey-interaction')
 

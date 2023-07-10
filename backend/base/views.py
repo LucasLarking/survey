@@ -1,4 +1,4 @@
-
+from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import serializers
@@ -13,7 +13,8 @@ from .models import (
     Vote,
     Interaction,
     InteractionItem,
-    Member
+    Member,
+    FilterObj
 )
 from django.db.models import Prefetch
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
@@ -21,6 +22,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import mixins
 from base.serializers import (
     ExtendedQuestionSerializer,
+    FilterSerializer,
     FullSurveySerializer,
     GetInteractionItemsSerializer,
     InteractionSubmitSerializer,
@@ -53,6 +55,9 @@ import random
 from django.utils import timezone
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.db.models import Q
+from django.db.models import Avg, F
+from django.db.models import Count
 
 
 class SurveyViewSet(ModelViewSet):
@@ -323,10 +328,38 @@ class InteractionViewSet(ModelViewSet):
 
         if interaction.interactionItems.count() != interaction.survey.questions.count():
             msg = 'Please answer all questions'
-            raise serializers.ValidationError(msg)
+            raise serializers.ValidationError(str(interaction.interactionItems.count(
+            )) + '  ' + str(interaction.survey.questions.count()))
 
         serializer = InteractionSubmitSerializer(
             data=request.data, context=serializer_context)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+
+class FilterObjViewSet(ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = FilterObj.objects.all()
+    http_method_names = ['get', 'options', 'post', 'head', 'delete']
+    serializer_class = FilterSerializer
+
+    def get_queryset(self):
+        survey_id = self.kwargs['survey_pk']
+        queryset = FilterObj.objects.filter(survey=survey_id)
+        return queryset
+
+    def get_serializer_context(self):
+
+        return {'request': self.request, 'survey': self.kwargs['survey_pk']}
+
+    @action(detail=False, methods=['DELETE'], permission_classes=[IsAuthenticated])
+    def clearFilter(self, request, survey_pk):
+
+        if request.method == 'DELETE':
+            survey_obj = Survey.objects.get(id=survey_pk)
+            if survey_obj.user == request.user:
+                queryset = self.get_queryset()
+                queryset.delete()
+                return Response(status=204)
+            return Response(status=400)

@@ -4,12 +4,11 @@ from django.db import models
 from django.conf import settings
 
 
-# Create your models here.
+
 class Member(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     phone = models.CharField(null=True, blank=True, max_length=255)
-    # def __str__(self):
-    #     return f"{self.user.first_name} {self.user.last_name}"
+
 
 class Survey(models.Model):
 
@@ -60,9 +59,10 @@ class Interaction(models.Model):
     started = models.DateTimeField()
     completed =  models.DateTimeField(null=True, blank=True)
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name='interactions')
+    
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     def __str__(self):
-        return f"{self.survey.survey} - {str(self.started.date())}"
+        return f"{self.survey.survey} - {str(self.started.date())} - {self.user.username}"
 
     class Meta:
         ordering = ['started']
@@ -75,3 +75,12 @@ class InteractionItem(models.Model):
 
     def __str__(self):
         return f"{self.question.question} - {self.option.option}"
+
+
+class FilterObj(models.Model):
+    option = models.ForeignKey(Option, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name='filterObjs')
+    def __str__(self):
+        return f"{self.question.question} - {self.option.option}"
+
