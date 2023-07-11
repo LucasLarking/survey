@@ -443,13 +443,14 @@ class GetInteractionSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'interaction', 'username', 'email']
-        read_only_fields = ['id', 'interaction', 'username', 'email']
+        read_only_fields = ['interaction', 'username', 'email']
 
     def get_interaction(self, instance):
         request = self.context['request']
+        print('###########################################################', self.validated_data, self.context)
         print(instance, 'instance', )
         interaction = Interaction.objects.get(
-            user=request.user, survey=Survey.objects.get(id=self.context['survey']))
+            user=self.context['user'], survey=Survey.objects.get(id=self.context['survey']))
         print('interaction', interaction)
         serializer = InteractionSerializer(interaction)
         return serializer.data

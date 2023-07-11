@@ -312,11 +312,12 @@ class InteractionViewSet(ModelViewSet):
     @action(detail=False, methods=['post'])
     def get_interaction(self, request, pk=None, survey_pk=None):
         serializer_context = self.get_serializer_context()
+        serializer_context['user'] = request.data['id']
         survey_obj = Survey.objects.get(id=serializer_context['survey'])
         if survey_obj.user != request.user:
             msg = 'You are not the owner of this survey'
             raise serializers.ValidationError(msg)
-
+        print(request.data, '#####')
         serializer = GetInteractionSerializer(
             data=request.data, context=serializer_context)
         serializer.is_valid(raise_exception=True)

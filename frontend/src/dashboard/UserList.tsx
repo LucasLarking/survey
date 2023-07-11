@@ -9,7 +9,7 @@ import useGetSurveyUsers from './hooks/useGetSureyUsers';
 import ErrorPage from '../pages/ErrorPage';
 import { useNavigate, useParams } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
-import useGetInteraction from '../interaction/hooks/useGetInteraction';
+import useGetInteraction, { ExtendedInteraction } from '../interaction/hooks/useGetInteraction';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Interaction } from '../interaction/Interaction';
 
@@ -20,11 +20,14 @@ const UserList = () => {
     const getInteraction = useGetInteraction(survey_id)
     const { data: users, error, isLoading } = useGetSurveyUsers(survey_id);
     const removeUser = useRemoveUserFromSurvey(1)
-
+    const queryClient = useQueryClient();
+    // const { data: interaction_obj, isLoading: instanceLoading, error: instanceError } = useQuery(['Interaction'], () =>
+    //     queryClient.getQueryData<ExtendedInteraction>(['Interaction'])
+    // );
 
     if (isLoading) return <p></p>
     if (error) return <p>error</p>
-    
+
 
     return (
         <>
@@ -60,7 +63,12 @@ const UserList = () => {
                                             email: user.email
                                         },
                                             {
-                                                onSuccess: (res) => {
+                                                onSuccess: (interaction) => {
+                                                    if (interaction) {
+                                                        console.log('aaaaa', interaction)
+                                                      
+                                                    }
+
                                                     // console.log('success', res)
                                                 },
                                                 onError: (error) => [
@@ -82,8 +90,8 @@ const UserList = () => {
                                             last_name: 'string',
                                         }, {
                                             onSuccess: (interaction) => {
-                                                // console.log('red', interaction)
-                                                // navigate(`/response/${interaction.id}`)
+                                                console.log('red', interaction)
+                                                // navigate(`/response/${interaction_obj?.id}`)
                                             }
                                         })
                                     }}>
