@@ -9,7 +9,7 @@ interface ExtendedQuestionOption {
     vote_count: number
 }
 
-interface ExtendedQuestion {
+export interface ExtendedQuestion {
     id: number;
     question: string;
     survey: number;

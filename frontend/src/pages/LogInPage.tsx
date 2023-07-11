@@ -9,7 +9,7 @@ const LogInPage = () => {
     <>
 
 
-    <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 20, height: '100vh', margin: 'auto' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 20, height: '100vh', margin: 'auto', bgcolor:'white' }}>
        <LogInForm />
         <SignUpIllustration />
       </Box>

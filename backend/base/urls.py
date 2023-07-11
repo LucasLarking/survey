@@ -4,6 +4,7 @@ from rest_framework_nested import routers
 
 from base.views import (
     QuestionViewSet,
+    SurveyTakerViewSet,
     SurveyViewSet,
     OptionViewSet,
 
@@ -22,6 +23,7 @@ router.register('surveys', SurveyViewSet)
 survey_router = routers.NestedDefaultRouter(router, 'surveys', lookup='survey')
 survey_router.register('questions', QuestionViewSet, basename='survey-question')
 survey_router.register('filterObjs', FilterObjViewSet, basename='survey-filterObjs')
+survey_router.register('surveytakers', SurveyTakerViewSet, basename='survey-surveytakers')
 
 survey_router.register('interactions', InteractionViewSet, basename='survey-interaction')
 

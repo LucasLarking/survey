@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios";
+import { User } from "../../signup/User";
 
 interface AverageCompletionTime {
     avg_time: number;
   }
   
+
 
 interface Total_survey {
     id: number;
@@ -18,6 +20,7 @@ interface Total_survey {
     interaction_count_this_week: number;
     completion_rate: number;
     average_completion_time: AverageCompletionTime;
+    users: User[]
 
 
 }

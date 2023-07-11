@@ -4,9 +4,9 @@ from django.db import models
 from django.conf import settings
 
 
-
 class Member(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     phone = models.CharField(null=True, blank=True, max_length=255)
 
 
@@ -14,7 +14,8 @@ class Survey(models.Model):
 
     survey = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
 
     class Meta:
         permissions = [
@@ -50,6 +51,7 @@ class Vote(models.Model):
     option = models.ForeignKey(
         Option, on_delete=models.CASCADE, related_name='votes')
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.question.question} - {self.option.option}"
@@ -57,10 +59,13 @@ class Vote(models.Model):
 
 class Interaction(models.Model):
     started = models.DateTimeField()
-    completed =  models.DateTimeField(null=True, blank=True)
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name='interactions')
-    
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    completed = models.DateTimeField(null=True, blank=True)
+    survey = models.ForeignKey(
+        Survey, on_delete=models.CASCADE, related_name='interactions')
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+
     def __str__(self):
         return f"{self.survey.survey} - {str(self.started.date())} - {self.user.username}"
 
@@ -71,7 +76,8 @@ class Interaction(models.Model):
 class InteractionItem(models.Model):
     option = models.ForeignKey(Option, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    interaction = models.ForeignKey(Interaction, on_delete=models.CASCADE, related_name='interactionItems')
+    interaction = models.ForeignKey(
+        Interaction, on_delete=models.CASCADE, related_name='interactionItems')
 
     def __str__(self):
         return f"{self.question.question} - {self.option.option}"
@@ -80,7 +86,8 @@ class InteractionItem(models.Model):
 class FilterObj(models.Model):
     option = models.ForeignKey(Option, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name='filterObjs')
+    survey = models.ForeignKey(
+        Survey, on_delete=models.CASCADE, related_name='filterObjs')
+
     def __str__(self):
         return f"{self.question.question} - {self.option.option}"
-

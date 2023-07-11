@@ -17,8 +17,8 @@ const Navbar = () => {
   console.log(username)
   return (
     <>
-      <Box component={'nav'} sx={{ position:'absolute', top: 0, left:0}}>
-        <Box sx={{ display: 'flex', gap: 3, m:2 }}>
+      <Box component={'nav'} sx={{ position:'absolute', top: 0, left:0, bgcolor:'white'}}>
+        <Box sx={{ display: 'flex', gap: 3, m:2, bgcolor:'white' }}>
 
 
           <Button className='link' sx={{color:'black', textDecoration: 'none', fontWeight:'bold', fontSize: 18, letterSpacing:1}} component={RouterLink} to={'/'}>Home</Button>

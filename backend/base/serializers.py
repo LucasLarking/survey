@@ -1,5 +1,7 @@
 from datetime import timedelta
 from rest_framework import serializers
+
+from core.models import User
 from .models import (
     Question,
     Survey,
@@ -10,6 +12,7 @@ from .models import (
     InteractionItem,
     FilterObj
 )
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import permissions
@@ -21,6 +24,15 @@ from django.utils import timezone
 from django.db import transaction
 from django.db.models import Q
 from django.db.models import Avg, F
+
+from rest_framework import status
+from rest_framework.response import Response
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name', 'email']
 
 
 class SurveySerializer(serializers.ModelSerializer):
@@ -58,6 +70,30 @@ class SurveySerializer(serializers.ModelSerializer):
             else:
                 raise serializers.ValidationError(
                     'You are not the owner of this survey')
+
+
+class SurveyTakerSerializer(serializers.ModelSerializer):
+    # options = OptionSerializer(many=True, read_only=False)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name', 'email']
+        read_only_fields = ['username', 'first_name', 'last_name', 'email']
+
+    def save(self, **kwargs):
+        request = self.context['request']
+        print(self.context, **kwargs)
+        # survey_obj = Survey.objects.get(id=self.context['survey'])
+
+        # Vote.objects.filter(question__survey_id=self.context['survey'], user=self.context['request']).delete()
+        if request.method == 'PATCH':
+            survey_obj = Survey.objects.get(id=self.context['survey'])
+            user_obj = User.objects.get(id=self.context['user'])
+            qs = Vote.objects.filter(
+                user=user_obj, question__survey=survey_obj).delete()
+            Interaction.objects.get(user=user_obj).delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class VoteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -204,6 +240,7 @@ class FullSurveySerializer(serializers.ModelSerializer):
     interaction_count_this_week = serializers.SerializerMethodField()
     completion_rate = serializers.SerializerMethodField()
     average_completion_time = serializers.SerializerMethodField()
+    users = serializers.SerializerMethodField()
     # Completion Rate
     # Average time to complete
 
@@ -222,6 +259,7 @@ class FullSurveySerializer(serializers.ModelSerializer):
             'interaction_count_this_week',
             'completion_rate',
             'average_completion_time',
+            'users',
 
         ]
         read_only_fields = [
@@ -234,17 +272,29 @@ class FullSurveySerializer(serializers.ModelSerializer):
             'daily_interaction_count',
             'interaction_count_this_week',
             'completion_rate',
-            'average_completion_time'
+            'average_completion_time',
+            'users',
         ]
 
     def qs(self, instance):
 
-        qs = instance.interactions.filter(~Q(completed__isnull=True)).distinct()
+        qs = instance.interactions.filter(
+            ~Q(completed__isnull=True)).distinct()
 
         return qs
 
     def get_question_count(self, instance):
         return instance.questions.count()
+
+    def get_users(self, instance):
+
+        user_ids = instance.interactions.filter(
+            ~Q(completed__isnull=True)).values_list('user', flat=True)
+        users = User.objects.filter(id__in=user_ids)
+        print('users', users)
+
+        serializer = UserSerializer(users, many=True)
+        return serializer.data
 
     def get_interaction_dates(self, instance):
         qs = self.qs(instance)
@@ -343,10 +393,25 @@ class MemberSerializer(serializers.ModelSerializer):
 
 
 class InteractionSerializer(serializers.ModelSerializer):
+    questions = serializers.SerializerMethodField()
+    user = serializers.SerializerMethodField()
+
     class Meta:
         model = Interaction
-        fields = ['id', 'started', 'completed', 'survey']
-        read_only_fields = ['id', 'started', 'completed', 'survey']
+        fields = ['id', 'started', 'completed', 'survey', 'questions', 'user']
+        read_only_fields = ['id', 'started',
+                            'completed', 'survey', 'questions']
+
+    def get_questions(self, instance):
+        qs = Vote.objects.filter(
+            user=instance.user, question__survey=instance.survey)
+        serializer = VoteSerializer(qs, many=True)
+        return serializer.data
+
+    def get_user(self, instance):
+        user = instance.user
+        serializer = UserSerializer(user)  # Replace with your User serializer
+        return serializer.data
 
     def save(self, **kwargs):
         request = self.context['request']
@@ -369,6 +434,29 @@ class InteractionSerializer(serializers.ModelSerializer):
             interaction_obj = Interaction.objects.get(
                 id=self.context['interaction'])
             print(interaction_obj)
+
+
+class GetInteractionSerializer(serializers.ModelSerializer):
+    interaction = serializers.SerializerMethodField()
+    # user = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ['id', 'interaction', 'username', 'email']
+        read_only_fields = ['id', 'interaction', 'username', 'email']
+
+    def get_interaction(self, instance):
+        request = self.context['request']
+        print(instance, 'instance', )
+        interaction = Interaction.objects.get(
+            user=request.user, survey=Survey.objects.get(id=self.context['survey']))
+        print('interaction', interaction)
+        serializer = InteractionSerializer(interaction)
+        return serializer.data
+
+    # def get_user(self, instance):
+    #     serializer = UserSerializer(self.context['request'].user)
+    #     return serializer.data
 
 
 class InteractionItemSerializer(serializers.ModelSerializer):
@@ -446,6 +534,7 @@ class InteractionSubmitSerializer(serializers.ModelSerializer):
                 Vote(
                     option=item.option,
                     question=item.question,
+                    user=self.context['request'].user
                 ) for item in interactionItems
             ]
 

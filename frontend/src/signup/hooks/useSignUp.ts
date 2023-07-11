@@ -1,13 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import axios, { AxiosError } from "axios";
+import { User } from "../User";
 
-interface User {
-    username: string;
-    password: string;
-    email: string;
-    first_name: string;
-    last_name: string;
-}
 
 const useSignUp = () => {
     const queryClient = useQueryClient();

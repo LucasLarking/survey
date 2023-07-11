@@ -1,15 +1,16 @@
 
-import { Container, ThemeProvider, Typography, createTheme } from '@mui/material';
+import { Box, Container, ThemeProvider, Typography, createTheme } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
 import { useParams } from 'react-router-dom';
 import useGetOptions from '../option/hooks/useGetOptions';
 import { Question } from '../question/Question';
 import useGetTotalVotes from '../vote/hooks/useGetTotalVotes';
 import React from 'react';
+import { ExtendedQuestion } from '../question/hooks/useGetExtendedQuestion';
 
 
 interface Props {
-    question: Question;
+    question: ExtendedQuestion;
 }
 
 const QuestionChart = ({ question }: Props) => {
@@ -31,27 +32,30 @@ const QuestionChart = ({ question }: Props) => {
 
 
 
-
+    const labels = question.options.map((option) => option.option)
+    const data = question.options.map((option) => option.vote_count)
     return (
 
         <>
-            <Container>
+            <Box>
 
 
-                <Typography variant='h5' sx={{ mb: -10 }}>{question.question}</Typography>
+                <Typography variant='h5'>{question.question}</Typography>
 
 
                 <BarChart
-                    xAxis={[{ scaleType: 'band', data: optionData }]}
-                    series={[{ data: optionVote }]}
+                    xAxis={[{ scaleType: 'band', data: labels }]}
+                    series={[{ data: data }]}
                     // width={1000}
                     height={300}
                     colors={['#24272a']}
 
                     sx={{ bgcolor: '#181a1c' }}
+
+               
                 />
 
-            </Container>
+            </Box>
 
         </>
 

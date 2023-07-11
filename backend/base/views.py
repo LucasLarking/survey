@@ -25,10 +25,12 @@ from base.serializers import (
     FilterSerializer,
     FullSurveySerializer,
     GetInteractionItemsSerializer,
+    GetInteractionSerializer,
     InteractionSubmitSerializer,
     OptionSerializer,
     QuestionSerializer,
     SurveySerializer,
+    SurveyTakerSerializer,
     TotalViewSerialiser,
     VoteSerializer,
     MemberSerializer,
@@ -151,6 +153,28 @@ class QuestionViewSet(ModelViewSet):
         serializer = ExtendedQuestionSerializer(
             queryset, many=True, context=serializer_context)
         return Response(serializer.data)
+
+
+class SurveyTakerViewSet(ModelViewSet):
+    http_method_names = ['get', 'patch', 'head', 'option']
+    queryset = User.objects.all()
+    serializer_class = SurveyTakerSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_serializer_context(self):
+        if self.request.method == 'PATCH':
+            return {'request': self.request, 'survey': self.kwargs['survey_pk'], 'user': self.kwargs['pk']}
+        return {'request': self.request, 'survey': self.kwargs['survey_pk']}
+
+    def get_queryset(self):
+
+        survey_id = self.kwargs['survey_pk']
+        survey_obj = Survey.objects.get(id=survey_id)
+
+        if survey_obj.user == self.request.user:
+            return User.objects.filter(vote__question__survey_id=survey_obj.id).distinct()
+        msg = 'You are not the owner of this survey'
+        raise serializers.ValidationError(msg)
 
 
 class OptionViewSet(ModelViewSet):
@@ -284,6 +308,20 @@ class InteractionViewSet(ModelViewSet):
         if self.request.method == 'PATCH':
             return {'request': self.request, 'survey': self.kwargs['survey_pk'], 'interaction': self.kwargs['pk']}
         return {'request': self.request, 'survey': self.kwargs['survey_pk']}
+
+    @action(detail=False, methods=['post'])
+    def get_interaction(self, request, pk=None, survey_pk=None):
+        serializer_context = self.get_serializer_context()
+        survey_obj = Survey.objects.get(id=serializer_context['survey'])
+        if survey_obj.user != request.user:
+            msg = 'You are not the owner of this survey'
+            raise serializers.ValidationError(msg)
+
+        serializer = GetInteractionSerializer(
+            data=request.data, context=serializer_context)
+        serializer.is_valid(raise_exception=True)
+        # serializer.save()
+        return Response(serializer.data)
 
     @action(detail=True, methods=['post'])
     def add_interaction_item(self, request, pk=None, survey_pk=None):

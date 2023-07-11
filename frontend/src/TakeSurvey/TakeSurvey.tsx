@@ -18,7 +18,7 @@ const TakeSurvey = () => {
     if (error) return <p>{error.message}</p>
     return (
         <>
-            <Container>
+            <Container sx={{bgcolor:'white'}}>
                 <SurveyStartMenu />
                 <Typography variant='h1'>{survey?.survey}</Typography>
                 <TakeQuestions />

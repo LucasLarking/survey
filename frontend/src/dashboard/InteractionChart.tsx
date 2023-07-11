@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { LineChart } from '@mui/x-charts';
 import React from 'react'
 
@@ -35,7 +35,7 @@ const InteractionChart = ({ dates, data }: Props) => {
 
     return (
         <>
-            <Container sx={{ top: '-150px', position: 'relative', borderRadius: '10px', marginBottom: '-150px' }}>
+            <Box sx={{position: 'relative', borderRadius: '10px' }}>
 
                 <LineChart
                     {...lineChartsParams}
@@ -43,12 +43,12 @@ const InteractionChart = ({ dates, data }: Props) => {
                     xAxis={[{ data: dates, scaleType: 'time', valueFormatter: yearFormater }]}
                     yAxis={[{ scaleType: 'linear' }]}
                     series={lineChartsParams.series.map((s) => ({ ...s }))}
-                    colors={['white']}
+                    colors={['#6ceca8']}
 
 
                 />
 
-            </Container>
+            </Box>
 
         </>
     )
