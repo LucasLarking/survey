@@ -380,7 +380,7 @@ class InteractionViewSet(ModelViewSet):
 class FilterObjViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = FilterObj.objects.all()
-    http_method_names = ['get', 'options', 'post', 'head', 'delete']
+    http_method_names = ['get', 'options', 'post', 'head']
     serializer_class = FilterSerializer
 
     def get_queryset(self):
@@ -392,13 +392,16 @@ class FilterObjViewSet(ModelViewSet):
 
         return {'request': self.request, 'survey': self.kwargs['survey_pk']}
 
-    @action(detail=False, methods=['DELETE'], permission_classes=[IsAuthenticated])
+
+    @action(detail=False, methods=['POST'], permission_classes=[IsAuthenticated])
     def clearFilter(self, request, survey_pk):
 
-        if request.method == 'DELETE':
+        if request.method == 'POST':
             survey_obj = Survey.objects.get(id=survey_pk)
             if survey_obj.user == request.user:
-                queryset = self.get_queryset()
-                queryset.delete()
+                vote_ojbs = Vote.objects.filter(question__survey=survey_obj)
+                vote_ojbs.update(show=True)
+                FilterObj.objects.filter(survey=survey_obj).delete()
+                
                 return Response(status=204)
             return Response(status=400)

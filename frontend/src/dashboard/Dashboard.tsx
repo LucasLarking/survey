@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Container, IconButton, Toolbar, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import ErrorPage from '../pages/ErrorPage';
 import useGetExtendedQuestions from '../question/hooks/useGetExtendedQuestion';
@@ -9,7 +9,8 @@ import QuestionChart from './QuestionChart';
 import SplitCards from './SplitCards';
 import UserList from './UserList';
 import useGetTotalSurvey from './hooks/useGetTotalSurvey';
-import { AccountCircle } from '@mui/icons-material';
+import FilterResponses from './filterResponses/FilterResponses';
+
 
 
 
@@ -43,6 +44,7 @@ const Dashboard = () => {
                     <SplitCards completion_rate={survey.completion_rate} average_completion_time={survey.average_completion_time} />
 
                 </Box>
+                <FilterResponses questions={questions}/>
                 <Box sx={{display:'flex', flexDirection:'column', gap:3}}>
                 <Typography variant='h4' sx={{ color: '#6ceca8'}}>Questions</Typography>
                     {questions.map((question) => (

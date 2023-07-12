@@ -7,7 +7,7 @@ interface AverageCompletionTime {
 
 interface Props {
   completion_rate: number;
-  average_completion_time: AverageCompletionTime;
+  average_completion_time: number;
 }
 
 const SplitCards = ({ completion_rate, average_completion_time }: Props) => {
@@ -22,7 +22,7 @@ const SplitCards = ({ completion_rate, average_completion_time }: Props) => {
         </Box>
         <Box sx={{ flexGrow: 1, bgcolor: '#181a1c', color: 'white', borderRadius: '20px', padding: 5, width: 1 / 2 }}>
           <Typography variant='h5' sx={{ fontWeight: 700 }}>Average Completion Time</Typography>
-          <Typography variant='h4' sx={{ fontWeight: 700, mt: 2, color: '#6ceca8' }}>{Math.floor(average_completion_time.avg_time / 60)} min</Typography>
+          <Typography variant='h4' sx={{ fontWeight: 700, mt: 2, color: '#6ceca8' }}>{Math.round(average_completion_time)} min</Typography>
 
         </Box>
 

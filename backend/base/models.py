@@ -52,7 +52,7 @@ class Vote(models.Model):
         Option, on_delete=models.CASCADE, related_name='votes')
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
+    show = models.BooleanField(default=True)
     def __str__(self):
         return f"{self.question.question} - {self.option.option}"
 
@@ -85,7 +85,7 @@ class InteractionItem(models.Model):
 
 class FilterObj(models.Model):
     option = models.ForeignKey(Option, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='questionFIlterObjs')
     survey = models.ForeignKey(
         Survey, on_delete=models.CASCADE, related_name='filterObjs')
 

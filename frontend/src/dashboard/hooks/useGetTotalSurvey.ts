@@ -19,7 +19,7 @@ interface Total_survey {
     daily_interaction_count: number;
     interaction_count_this_week: number;
     completion_rate: number;
-    average_completion_time: AverageCompletionTime;
+    average_completion_time: number;
     users: User[]
 
 

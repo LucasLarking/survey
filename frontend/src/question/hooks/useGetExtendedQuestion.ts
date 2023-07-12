@@ -8,11 +8,20 @@ interface ExtendedQuestionOption {
     vote_count: number
 }
 
+export interface FilterObj {
+    id: number;
+    option: string;
+    option_text: string;
+    question: number;
+    survey: number;
+}
+
 export interface ExtendedQuestion {
     id: number;
     question: string;
     survey: number;
-    options: ExtendedQuestionOption[]
+    options: ExtendedQuestionOption[];
+    filterObjs: FilterObj[]
 }
 
 

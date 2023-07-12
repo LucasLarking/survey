@@ -130,7 +130,8 @@ class OptionSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'question', 'vote_count']
 
     def get_vote_count(self, instance):
-        return instance.votes.count()
+        # return instance.votes.fil.count()
+        return instance.votes.filter(show=True).count()
 
     def save(self, **kwargs):
 
@@ -206,17 +207,22 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class ExtendedQuestionSerializer(serializers.ModelSerializer):
     options = serializers.SerializerMethodField()
-
+    filterObjs = serializers.SerializerMethodField()
     class Meta:
         model = Question
-        fields = ['id', 'question', 'survey', 'options']
-        read_only_fields = ['id', 'survey', 'options']
+        fields = ['id', 'question', 'survey', 'options', 'filterObjs']
+        read_only_fields = ['id', 'survey', 'options', 'filterObjs']
 
     def get_options(self, instance):
         options = instance.options.all()
         serializer = OptionSerializer(options, many=True)
         return serializer.data
+    
 
+    def get_filterObjs(self, instance):
+        filterObjs = instance.questionFIlterObjs.all()
+        serializer = FilterSerializer(filterObjs, many=True)
+        return serializer.data
 
 class TotalViewSerialiser(serializers.ModelSerializer):
     vote_count = serializers.SerializerMethodField()
@@ -380,7 +386,9 @@ class FullSurveySerializer(serializers.ModelSerializer):
         ).aggregate(avg_time=Avg('time_difference'))
         print(average_time_difference)
         if average_time_difference['avg_time']:
-            return average_time_difference
+            average_time = average_time_difference['avg_time']
+            average_time_minutes = average_time.total_seconds() / 60
+            return round(average_time_minutes, 2)
         return 0
 
 
@@ -447,7 +455,8 @@ class GetInteractionSerializer(serializers.ModelSerializer):
 
     def get_interaction(self, instance):
         request = self.context['request']
-        print('###########################################################', self.validated_data, self.context)
+        print('###########################################################',
+              self.validated_data, self.context)
         print(instance, 'instance', )
         interaction = Interaction.objects.get(
             user=self.context['user'], survey=Survey.objects.get(id=self.context['survey']))
@@ -544,10 +553,11 @@ class InteractionSubmitSerializer(serializers.ModelSerializer):
 
 
 class FilterSerializer(serializers.ModelSerializer):
+    option_text = serializers.SerializerMethodField()
     class Meta:
         model = FilterObj
-        fields = ['id', 'option', 'question', 'survey']
-        read_only_fields = ['id', 'survey']
+        fields = ['id', 'option', 'question', 'survey', 'option_text']
+        read_only_fields = ['id', 'survey', 'option_text']
 
     def save(self, **kwargs):
         print(self.context)
@@ -562,4 +572,21 @@ class FilterSerializer(serializers.ModelSerializer):
                 question=self.validated_data['question'],
             )
 
+            survey_obj = Survey.objects.get(id=self.context['survey'])
+            vote_objs = Vote.objects.filter(question__survey=survey_obj)
+
+            interaction_items = InteractionItem.objects.filter(
+                option=self.instance.option)
+
+            # Query to filter Interaction objects that have an interaction with the interaction items
+            users = User.objects.filter(
+                interaction__interactionItems__in=interaction_items)
+            votes = Vote.objects.exclude(
+                user__in=users, question__survey=survey_obj)
+
+            votes.update(show=False)
+            print('USERS: ', users)
             return self.instance
+
+    def get_option_text(self, instance):
+        return instance.option.option

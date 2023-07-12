@@ -20,7 +20,7 @@ const UserList = () => {
     return (
         <Box>
         
-            <Typography variant='h4' sx={{ color: '#6ceca8', mb:3}}>Resondants</Typography>
+            <Typography variant='h4' sx={{ color: '#6ceca8', mb:3}}>Respondants</Typography>
             <Table sx={{ minWidth: 650, bgcolor: '#181a1c', color: 'white' }}>
                 <TableHead sx={{ backgroundColor: '#24272a' }}>
                     <TableRow>
