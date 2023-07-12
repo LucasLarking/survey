@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 interface LogIn {
@@ -11,7 +11,7 @@ interface Token {
 }
 
 const useLogIn = () => {
-    const queryClient = useQueryClient();
+
     return useMutation<Token, Error, LogIn>({
         mutationFn: (logIn: LogIn) => axios.post("http://127.0.0.1:8000/auth/jwt/create/", logIn)
             .then(res => res.data),
@@ -23,7 +23,7 @@ const useLogIn = () => {
   
         },
 
-        onError(error, variables, context) {
+        onError() {
             // console.log('error', error)
         },
 

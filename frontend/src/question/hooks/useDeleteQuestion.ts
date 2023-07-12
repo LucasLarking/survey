@@ -15,7 +15,7 @@ const useDeleteQuestion = (survey_id: number) => {
             })
                 .then(res => res.data),
     
-    onSuccess: (res) => {
+    onSuccess: () => {
         queryClient.invalidateQueries(CACHE_KEY_QUESTIONS)
     }
             })

@@ -1,8 +1,7 @@
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Tab, Tabs, TextField, Tooltip, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import ShareBox from './ShareBox'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, Input, InputLabel, Tab, Tabs, TextField, Tooltip, Typography } from '@mui/material'
-import Email from './Email'
 import { useParams } from 'react-router-dom'
+import Email from './Email'
 
 const ShareButton = () => {
     const [showShareBox, setShowShareBox] = useState<boolean>(false)

@@ -12,7 +12,7 @@ const useEditQuesiton = (survey_id: number) => {
         })
         .then(res => res.data),
 
-    onSuccess: (editedQuestion) => {
+    onSuccess: () => {
         queryCLinet.invalidateQueries(CACHE_KEY_QUESTIONS)
     }
     })

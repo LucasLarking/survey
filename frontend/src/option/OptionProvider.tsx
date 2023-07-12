@@ -37,7 +37,7 @@ const OptionReducer = (options: Option[], action: OptionAction): Option[] => {
     }
     if (action.type === 'Delete') {
         console.log(action.option)
-        const filteredOptions = options.filter((obj, index) => obj.id !== action.option.id); // Delete the second item (index 1)
+        const filteredOptions = options.filter((obj) => obj.id !== action.option.id); // Delete the second item (index 1)
 
         return filteredOptions;
     }

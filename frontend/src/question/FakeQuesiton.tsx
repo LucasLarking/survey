@@ -1,10 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, FormControl, TextField } from '@mui/material';
-import React, { useEffect, useState } from 'react'
-import { useForm, FieldValues } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
-import useAddOption from '../option/hooks/useAddOption';
 import useAddQuestion from './hooks/useAddQuestion';
 
 const FakeQuesiton = () => {

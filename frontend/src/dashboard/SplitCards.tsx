@@ -1,5 +1,4 @@
-import { Box, Container, Typography } from '@mui/material'
-import React from 'react'
+import { Box, Typography } from '@mui/material';
 
 interface AverageCompletionTime {
   avg_time: number;

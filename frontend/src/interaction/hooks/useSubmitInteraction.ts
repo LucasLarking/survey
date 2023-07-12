@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { Interaction } from "../Interaction";
 
 interface MyError {
@@ -18,8 +18,8 @@ const useSubmitInteraction = (survey_id: number) => {
         })
             .then(res => res.data),
 
-        onSuccess: (savedInteraction: Interaction) => {},
-        onError: (err) => {}
+        onSuccess: () => {},
+        onError: () => {}
 
     })
 }

@@ -1,11 +1,6 @@
 
-import { Box, Container, ThemeProvider, Typography, createTheme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
-import { useParams } from 'react-router-dom';
-import useGetOptions from '../option/hooks/useGetOptions';
-import { Question } from '../question/Question';
-import useGetTotalVotes from '../vote/hooks/useGetTotalVotes';
-import React from 'react';
 import { ExtendedQuestion } from '../question/hooks/useGetExtendedQuestion';
 
 
@@ -15,22 +10,6 @@ interface Props {
 
 const QuestionChart = ({ question }: Props) => {
 
-    const { slug } = useParams();
-    const survey_id = parseInt(slug!);
-
-
-    const { data: options, isLoading, error } = useGetOptions(survey_id, question.id)
-    const { data: votes, isLoading: voteLoading, error: voteError } = useGetTotalVotes(survey_id, question.id)
-
-
-    if (error) return <p>{error.message}</p>
-    if (isLoading) return <p>loading</p>
-    if (voteError) return <p>{voteError.message}</p>
-    if (voteLoading) return <p>loading</p>
-    const optionData = options.map((option) => option.option);
-    const optionVote = options.map((option) => option.vote_count);
-
-
 
     const labels = question.options.map((option) => option.option)
     const data = question.options.map((option) => option.vote_count)
@@ -38,25 +17,15 @@ const QuestionChart = ({ question }: Props) => {
 
         <>
             <Box>
-
-
                 <Typography variant='h5'>{question.question}</Typography>
-
-
                 <BarChart
                     xAxis={[{ scaleType: 'band', data: labels }]}
                     series={[{ data: data }]}
-                    // width={1000}
                     height={300}
                     colors={['#24272a']}
-
                     sx={{ bgcolor: '#181a1c' }}
-
-               
                 />
-
             </Box>
-
         </>
 
     )

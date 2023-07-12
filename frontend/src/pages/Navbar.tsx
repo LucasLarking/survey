@@ -1,15 +1,13 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useContext } from 'react'
 
-import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom'
-import { CACHE_KEY_SURVEY, Survey } from '../survey/Survey';
+import { AppBar, Box, Button, Container, IconButton, Toolbar } from '@mui/material';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import ShareButton from '../share/ShareButton';
-import { Box, Button, Link } from '@mui/material';
+import { AccountCircle } from '@mui/icons-material';
 
 
 
 const Navbar = () => {
-  const queryClient = useQueryClient();
+
   const location = useLocation();
   const navigate = useNavigate()
   console.log(location.pathname)
@@ -17,14 +15,14 @@ const Navbar = () => {
   console.log(username)
   return (
     <>
-      <Box component={'nav'} sx={{ position:'absolute', top: 0, left:0, bgcolor:'white'}}>
-        <Box sx={{ display: 'flex', gap: 3, m:2, bgcolor:'white' }}>
+      {/* <Box component={'nav'} sx={{ position: 'absolute', top: 0, left: 0, bgcolor: 'white' }}>
+        <Box sx={{ display: 'flex', gap: 3, m: 2, bgcolor: 'white' }}>
 
 
-          <Button className='link' sx={{color:'black', textDecoration: 'none', fontWeight:'bold', fontSize: 18, letterSpacing:1}} component={RouterLink} to={'/'}>Home</Button>
-          {/* <Button to={'/create'}>Create</Button> */}
-          {!username && (<><Button sx={{color:'black', textDecoration: 'none', fontWeight: 600, fontSize: 18, letterSpacing:1}}  component={RouterLink} to={'/signup'}>Sign Up</Button> <Button sx={{color:'black', textDecoration: 'none', fontWeight: 600, fontSize: 18, letterSpacing:1}}  component={RouterLink} to={'/login'}>Log in</Button></>)}
-          {username && (<><button onClick={(e) => {localStorage.removeItem('access'); localStorage.removeItem('refresh'); localStorage.removeItem('username'); navigate('/') }}>Log out</button> <Button sx={{color:'black', textDecoration: 'none', fontWeight: 600, fontSize: 18, letterSpacing:1}}  component={RouterLink} to={''}>{username}</Button></>)}
+          <Button className='link' sx={{ color: 'black', textDecoration: 'none', fontWeight: 'bold', fontSize: 18, letterSpacing: 1 }} component={RouterLink} to={'/'}>Home</Button>
+
+          {!username && (<><Button sx={{ color: 'black', textDecoration: 'none', fontWeight: 600, fontSize: 18, letterSpacing: 1 }} component={RouterLink} to={'/signup'}>Sign Up</Button> <Button sx={{ color: 'black', textDecoration: 'none', fontWeight: 600, fontSize: 18, letterSpacing: 1 }} component={RouterLink} to={'/login'}>Log in</Button></>)}
+          {username && (<><button onClick={() => { localStorage.removeItem('access'); localStorage.removeItem('refresh'); localStorage.removeItem('username'); navigate('/') }}>Log out</button> <Button sx={{ color: 'black', textDecoration: 'none', fontWeight: 600, fontSize: 18, letterSpacing: 1 }} component={RouterLink} to={''}>{username}</Button></>)}
           {location.pathname.includes('create') && <ShareButton />}
 
 
@@ -32,6 +30,49 @@ const Navbar = () => {
 
         </Box>
 
+      </Box> */}
+
+
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" sx={{ bgcolor: '#181a1c' }}>
+          <Container maxWidth="xl">
+            <Toolbar disableGutters>
+              <Box className="leftNav" sx={{ flexGrow: 1, display: 'flex', gap: 2, alignItems: 'center' }}>
+
+                <Button sx={{ color: 'white', display: 'block', fontWeight: 700, fontSize:18 }} component={RouterLink} to={'/'}>HOME</Button>
+                <Box sx={{ display: 'flex', gap: 3 }}>
+                  {!username && (
+                    <Button
+                      sx={{ color: 'white', textDecoration: 'none', fontWeight: 700, fontSize: 18, letterSpacing: 1 }}
+                      component={RouterLink} to={'/login'}
+                    >Log In</Button>)}
+                  {username && (
+                    <Button
+                      sx={{ color: 'white', textDecoration: 'none', fontSize: 18, letterSpacing: 1, fontWeight:700 }}
+                      onClick={() => { localStorage.removeItem('access'); localStorage.removeItem('refresh'); localStorage.removeItem('username'); navigate('/') }}
+                    >Log Out</Button>)}
+                  <Button sx={{ display: 'block', fontWeight: 700, bgcolor: '#6ceca8', color: 'black', fontSize:18 }} variant="contained" disableElevation>Create</Button>
+                </Box>
+              </Box>
+              <Box className="rightNav">
+                {username && (
+
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    color="inherit"
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                )}
+
+
+              </Box>
+            </Toolbar>
+          </Container>
+        </AppBar>
       </Box>
     </>
   )

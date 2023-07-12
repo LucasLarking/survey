@@ -1,9 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import axios from "axios";
-import { User } from "../../signup/User";
-import { Interaction } from "../Interaction";
 import { useNavigate } from "react-router-dom";
+import { User } from "../../signup/User";
 
 
 

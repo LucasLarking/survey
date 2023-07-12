@@ -1,13 +1,11 @@
 
-import React from 'react'
-import { Navigate, useParams } from 'react-router-dom';
-import CreateQuestionForm from '../question/CreateQuestionForm';
+import { Box } from '@mui/material';
+import { useParams } from 'react-router-dom';
 import EditQuestion from '../question/EditQuestion';
+import FakeQuesiton from '../question/FakeQuesiton';
 import DeleteSurvey from '../survey/createSurvey/DeleteSurvey';
 import EditSurveyForm from '../survey/createSurvey/EditSurveyForm';
 import useGetSurvey from '../survey/hooks/useGetSurvey';
-import FakeQuesiton from '../question/FakeQuesiton';
-import { Box } from '@mui/material';
 
 
 const EditSurveyPage = () => {

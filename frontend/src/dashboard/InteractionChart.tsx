@@ -1,6 +1,5 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { LineChart } from '@mui/x-charts';
-import React from 'react'
 
 interface Props {
     dates: Date[],
@@ -15,8 +14,6 @@ const InteractionChart = ({ dates, data }: Props) => {
         height: 400,
     };
     let previousDate = dates[0]
-    const firstDate = dates[0]
-    let istFirst = true
     let iteration = 0;
 
 

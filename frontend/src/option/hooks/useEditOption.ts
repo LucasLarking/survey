@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CACHE_KEY_OPTIONS, Option } from "../OptionProvider";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { CACHE_KEY_OPTIONS, Option } from "../OptionProvider";
 
 const useEditOption = (survey_id: number, question_id: number) => {
     const queryClient = useQueryClient();
@@ -13,7 +13,7 @@ const useEditOption = (survey_id: number, question_id: number) => {
         })
         .then(res => res.data),
 
-        onSuccess: (res) => {
+        onSuccess: () => {
             const queryKey = [CACHE_KEY_OPTIONS, survey_id, question_id];
             queryClient.invalidateQueries(queryKey)
         }

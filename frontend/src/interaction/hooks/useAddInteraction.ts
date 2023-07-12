@@ -1,12 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { Interaction } from "../Interaction";
 
 
 
 const useAddInteraction = (survey_id: number) => {
 
-    const queryClient = useQueryClient();
+
     return useMutation<Interaction, Error>({
         mutationFn: () => axios.post(`http://127.0.0.1:8000/api/surveys/${survey_id}/interactions/`,{}, {
             headers: {

@@ -1,7 +1,6 @@
-import { Box, Checkbox, Typography } from '@mui/material'
-import React from 'react'
-import { ExtendedQuestion } from '../question/hooks/useGetExtendedQuestion'
+import { Box, Checkbox, Typography } from '@mui/material';
 import { ExtendedInteraction } from '../interaction/hooks/useGetInteraction';
+import { ExtendedQuestion } from '../question/hooks/useGetExtendedQuestion';
 
 interface Props {
     questions: ExtendedQuestion[] | undefined;
@@ -24,7 +23,7 @@ const Questions = ({ questions, interaction_obj }: Props) => {
 
                     <Typography variant='h4' sx={{ color: '#6ceca8' }}>{question.question}</Typography>
                     <Box>
-                        {question.options.map((option, index) => (
+                        {question.options.map((option) => (
                             <Box
                                 key={option.id}
                                 sx={{

@@ -1,5 +1,5 @@
-import { Box, Container, Fade, Slide, Typography } from '@mui/material'
-import React, { useRef } from 'react'
+import { Box, Slide, Typography } from '@mui/material';
+import { useRef } from 'react';
 
 interface Props {
   interaction_count: number;

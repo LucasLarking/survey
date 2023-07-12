@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { CACHE_KEY_QUESTIONS, Question } from "../Question";
 
 interface ExtendedQuestionOption {
     id: number;

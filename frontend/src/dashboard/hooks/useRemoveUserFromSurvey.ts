@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { User } from "../../signup/User";
 
@@ -15,7 +15,7 @@ const useRemoveUserFromSurvey = (survey_id:number) => {
         })
             .then(res => res.data),
 
-        onSuccess: (token) => {
+        onSuccess: () => {
             console.log('success')
             queryClient.invalidateQueries(['survey_users']);
             queryClient.invalidateQueries(['Total_survey']);

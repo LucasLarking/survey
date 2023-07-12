@@ -12,7 +12,8 @@
   "dependencies": {
     "@mui/x-data-grid": "^6.9.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.45.1"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
@@ -42,7 +43,7 @@
     "simple-zustand-devtools": "^1.1.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.0",
-    "zod": "^3.20.6",
+    "zod": "^3.21.4",
     "zustand": "^4.3.7"
   }
 }

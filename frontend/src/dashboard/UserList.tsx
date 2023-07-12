@@ -1,29 +1,17 @@
-import { Box, Button, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Table, TableBody, TableCell, TableHead, TableRow, Tooltip } from '@mui/material'
-import InboxIcon from '@mui/icons-material/Inbox';
-import React, { useState } from 'react'
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { User } from '../signup/User';
-import useRemoveUserFromSurvey from './hooks/useRemoveUserFromSurvey';
-import useGetSurveyUsers from './hooks/useGetSureyUsers';
-import ErrorPage from '../pages/ErrorPage';
-import { useNavigate, useParams } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
-import useGetInteraction, { ExtendedInteraction } from '../interaction/hooks/useGetInteraction';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Interaction } from '../interaction/Interaction';
+import { IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import useGetInteraction from '../interaction/hooks/useGetInteraction';
+import useGetSurveyUsers from './hooks/useGetSureyUsers';
+import useRemoveUserFromSurvey from './hooks/useRemoveUserFromSurvey';
 
 const UserList = () => {
-    const navigate = useNavigate();
     const { slug } = useParams();
     const survey_id = parseInt(slug!);
     const getInteraction = useGetInteraction(survey_id)
     const { data: users, error, isLoading } = useGetSurveyUsers(survey_id);
     const removeUser = useRemoveUserFromSurvey(1)
-    const queryClient = useQueryClient();
-    // const { data: interaction_obj, isLoading: instanceLoading, error: instanceError } = useQuery(['Interaction'], () =>
-    //     queryClient.getQueryData<ExtendedInteraction>(['Interaction'])
-    // );
 
     if (isLoading) return <p></p>
     if (error) return <p>error</p>
@@ -37,7 +25,7 @@ const UserList = () => {
                     <TableRow>
 
 
-                        <TableCell sx={{ color: '#6ceca8', fontWeight: 700, borderBottom: '1px solid #24272a' }}>Username</TableCell>
+                        <TableCell sx={{ color: '#6ceca8', fontWeight: 700}}>Username</TableCell>
                         <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }} >Name</TableCell>
                         <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }}>Email</TableCell>
                         <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }} align="right">Handle Submission</TableCell>
@@ -53,7 +41,7 @@ const UserList = () => {
                             <TableCell sx={{ color: 'white' }} >{user.email}</TableCell>
                             <TableCell sx={{ color: 'white' }} align="right">
                                 <Tooltip title="Delete" color='inherit'>
-                                    <IconButton aria-label="delete" color="inherit" onClick={(e) => {
+                                    <IconButton aria-label="delete" color="inherit" onClick={() => {
                                         removeUser.mutate({
                                             id: user.id,
                                             username: user.username,
@@ -69,18 +57,15 @@ const UserList = () => {
                                                       
                                                     }
 
-                                                    // console.log('success', res)
                                                 },
-                                                onError: (error) => [
-                                                    // console.log('error', error)
-                                                ]
+                                                onError: () => {}
                                             })
                                     }}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </Tooltip>
                                 <Tooltip title="View" >
-                                    <IconButton color="inherit" onClick={(e) => {
+                                    <IconButton color="inherit" onClick={() => {
                                         getInteraction.mutate({
                                             id: user.id,
                                             username: 'string',

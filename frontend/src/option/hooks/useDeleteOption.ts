@@ -1,7 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CACHE_KEY_OPTIONS, Option } from "../OptionProvider";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { CACHE_KEY_QUESTIONS } from "../../question/Question";
+import { CACHE_KEY_OPTIONS, Option } from "../OptionProvider";
 
 const useDeleteOption = (survey_id: number, question_id: number, option_id: number) => {
     const queryClient = useQueryClient();

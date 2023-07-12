@@ -1,6 +1,5 @@
-import React from 'react'
-import LogInForm from '../signup/LogInForm'
 import { Box } from '@mui/material'
+import LogInForm from '../signup/LogInForm'
 import SignUpIllustration from '../signup/SignUpIllustration'
 
 const LogInPage = () => {

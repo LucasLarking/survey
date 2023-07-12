@@ -36,7 +36,6 @@ const useGetTotalSurvey = (survey_id: number) => {
     return useQuery<Total_survey, Error>({
         queryKey: ['Total_survey'],
         queryFn: fetchSurvey,
-        // staleTime: 0
     })
 
 

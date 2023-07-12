@@ -1,10 +1,9 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query";
 
 import axios from "axios";
 import { InteractionItem } from "../Interaction";
 
 const useAddInteractionItem = (survey_id: number) => {
-  const queryClient = useQueryClient();
 
   return useMutation<InteractionItem, Error, InteractionItem>({
     mutationFn: (interactionItem: InteractionItem) =>
@@ -15,7 +14,7 @@ const useAddInteractionItem = (survey_id: number) => {
     })
         .then(res => res.data),
 
-    onSuccess: (interactionItem) => {}
+    onSuccess: () => {}
   });
 }
 

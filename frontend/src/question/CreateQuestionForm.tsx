@@ -1,13 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, FormControl, TextField } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
-import { string, z } from 'zod'
+import { useParams } from 'react-router-dom'
+import { z } from 'zod'
+import useAddOption from '../option/hooks/useAddOption'
 import useOption from '../option/useOption'
 import useAddQuestion from './hooks/useAddQuestion'
-import { useParams } from 'react-router-dom'
-import useAddOption from '../option/hooks/useAddOption'
-import { Option } from '../option/OptionProvider'
 
 const CreateQuestionForm = () => {
   const { slug } = useParams();
@@ -59,10 +58,6 @@ const CreateQuestionForm = () => {
 
   }
 
-  const x = () => {
-    console.log('asds')
-  }
-
 
   return (
     <>
@@ -70,7 +65,7 @@ const CreateQuestionForm = () => {
         <FormControl>
           <TextField {...register('question')} label='question' error={!!errors['question']} helperText={errors.question?.message} ></TextField>
 
-          {options?.map((option, index) => (
+          {options?.map((_, index) => (
 
             <div className='option' key={index}>
               <TextField {...register(`options.${index}`)} label='option' helperText={errors?.options?.[index]?.message} error={errors?.options?.[index] ? true : false} ></TextField>
@@ -86,7 +81,7 @@ const CreateQuestionForm = () => {
         </FormControl>
         <input type='submit' value={'submit'} />
       </Box>
-      <button onClick={e => {
+      <button onClick={() => {
 
         dispatch({ type: 'Add', option: { id: counter, option: '', question: 1, vote_count:0 } })
         setCounter(counter + 1)

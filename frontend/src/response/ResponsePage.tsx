@@ -1,21 +1,18 @@
-import { Box, Button, Checkbox, Container, Typography } from '@mui/material'
-import { useQueryClient, useQuery } from '@tanstack/react-query';
-import React from 'react'
-import { Interaction } from '../interaction/Interaction';
-import { useNavigate, useParams } from 'react-router-dom';
-import useGetSurvey from '../survey/hooks/useGetSurvey';
-import useGetInteraction, { ExtendedInteraction } from '../interaction/hooks/useGetInteraction';
-import useGetQuestions from '../question/hooks/useGetQuestions';
-import useGetExtendedQuestions from '../question/hooks/useGetExtendedQuestion';
-import Questions from './Questions';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Button, Container, Typography } from '@mui/material';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate, useParams } from 'react-router-dom';
 import useRemoveUserFromSurvey from '../dashboard/hooks/useRemoveUserFromSurvey';
+import { ExtendedInteraction } from '../interaction/hooks/useGetInteraction';
+import useGetExtendedQuestions from '../question/hooks/useGetExtendedQuestion';
+import useGetSurvey from '../survey/hooks/useGetSurvey';
+import Questions from './Questions';
 const ResponsePage = () => {
-  const { id, slug } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate()
   const survey_id = parseInt(id!);
-  const { data: survey, error: survey_error, isLoading: survey_loading } = useGetSurvey(survey_id);
-  const { data: questions, error: question_error, isLoading: question_loading } = useGetExtendedQuestions(survey_id);
+  const { data: survey } = useGetSurvey(survey_id);
+  const { data: questions } = useGetExtendedQuestions(survey_id);
   const removeUser = useRemoveUserFromSurvey(survey_id)
   const queryClient = useQueryClient();
 
@@ -45,7 +42,7 @@ const ResponsePage = () => {
         size="large"
         sx={{ fontWeight: 700, letterSpacing: 0.5 }}
         endIcon={<DeleteIcon />}
-        onClick={(e) => {
+        onClick={() => {
           if (interaction_obj?.user.id) {
 
 
@@ -67,7 +64,7 @@ const ResponsePage = () => {
 
                   // console.log('success', res)
                 },
-                onError: (error) => [
+                onError: () => [
                   // console.log('error', error)
                 ]
               })

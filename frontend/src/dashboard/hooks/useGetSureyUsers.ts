@@ -13,7 +13,6 @@ const useGetSurveyUsers = (survey_id: number) => {
     return useQuery<User[], Error>({
         queryKey: ['survey_users'],
         queryFn: fetchSurveyUsers,
-        // staleTime: 0
     })
 
 

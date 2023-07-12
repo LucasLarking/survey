@@ -1,9 +1,7 @@
-import React from 'react'
-import useGetOptions from './hooks/useGetOptions'
-import { Question } from '../question/Question';
 import { useParams } from 'react-router-dom';
+import { Question } from '../question/Question';
 import EditOptionForm from './EditOptionForm';
-import OptionSkeleton from './OptionSkeleton';
+import useGetOptions from './hooks/useGetOptions';
 
 
 interface Props {
@@ -15,14 +13,14 @@ interface Props {
 const EditOption = ({question}: Props) => {
     const { slug } = useParams();
     const survey_id = parseInt(slug!);
-    const {data: options, isLoading: optionsLoading, error: optionsError} = useGetOptions(survey_id, question.id)
+    const {data: options, error: optionsError} = useGetOptions(survey_id, question.id)
 
     if (optionsError) return <p>{optionsError.message}</p>
     // if (optionsLoading) return <OptionSkeleton />
   
   return (
     <>
-    {options?.map((option, index) => (
+    {options?.map((option) => (
         <div key={option.id} className="option">
             
             <EditOptionForm option={option} />

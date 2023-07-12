@@ -1,10 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { User } from "../User";
 
 
 const useSignUp = () => {
-    const queryClient = useQueryClient();
+
     return useMutation<User, AxiosError, User>({
         mutationFn: (user: User) => axios.post<User>('http://127.0.0.1:8000/auth/users/', user)
         .then(res => res.data),
@@ -13,7 +13,7 @@ const useSignUp = () => {
             console.log(createdUser)
         },
 
-        onError(error, variables, context) {
+        onError(error) {
             console.log('error', error)
         },
     })
