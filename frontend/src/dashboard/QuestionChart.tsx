@@ -16,14 +16,14 @@ const QuestionChart = ({ question }: Props) => {
     return (
 
         <>
-            <Box>
-                <Typography variant='h5'>{question.question}</Typography>
+            <Box sx={{bgcolor:'#181a1c'}}>
+                <Typography variant='h5' sx={{color:'#6ceca8', pt:6, pl:10}}>{question.question}</Typography>
                 <BarChart
                     xAxis={[{ scaleType: 'band', data: labels }]}
                     series={[{ data: data }]}
                     height={300}
                     colors={['#24272a']}
-                    sx={{ bgcolor: '#181a1c' }}
+                    sx={{ bgcolor: '#181a1c'}}
                 />
             </Box>
         </>

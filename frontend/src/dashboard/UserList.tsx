@@ -1,6 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip } from '@mui/material';
+import { Box, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import useGetInteraction from '../interaction/hooks/useGetInteraction';
 import useGetSurveyUsers from './hooks/useGetSureyUsers';
@@ -18,14 +18,15 @@ const UserList = () => {
 
 
     return (
-        <>
-
+        <Box>
+        
+            <Typography variant='h4' sx={{ color: '#6ceca8', mb:3}}>Resondants</Typography>
             <Table sx={{ minWidth: 650, bgcolor: '#181a1c', color: 'white' }}>
                 <TableHead sx={{ backgroundColor: '#24272a' }}>
                     <TableRow>
 
 
-                        <TableCell sx={{ color: '#6ceca8', fontWeight: 700}}>Username</TableCell>
+                        <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }}>Username</TableCell>
                         <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }} >Name</TableCell>
                         <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }}>Email</TableCell>
                         <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }} align="right">Handle Submission</TableCell>
@@ -54,11 +55,11 @@ const UserList = () => {
                                                 onSuccess: (interaction) => {
                                                     if (interaction) {
                                                         console.log('aaaaa', interaction)
-                                                      
+
                                                     }
 
                                                 },
-                                                onError: () => {}
+                                                onError: () => { }
                                             })
                                     }}>
                                         <DeleteIcon />
@@ -93,7 +94,7 @@ const UserList = () => {
 
                 </TableBody>
             </Table>
-        </>
+        </Box>
     )
 }
 

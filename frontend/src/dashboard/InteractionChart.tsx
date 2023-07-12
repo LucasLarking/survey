@@ -32,7 +32,7 @@ const InteractionChart = ({ dates, data }: Props) => {
 
     return (
         <>
-            <Box sx={{position: 'relative', borderRadius: '10px' }}>
+            <Box sx={{position: 'relative', borderRadius: '10px', marginTop: '-50px' }}>
 
                 <LineChart
                     {...lineChartsParams}

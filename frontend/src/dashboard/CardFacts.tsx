@@ -11,7 +11,7 @@ const CardFacts = ({interaction_count, interaction_count_this_week, daily_intera
   const containerRef = useRef(null)
   return (
     <>
-      <Box  ref={containerRef} sx={{ mt: 10, display: 'flex', justifyContent: 'center', gap: 3, overflow:'hidden' }}>
+      <Box  ref={containerRef} sx={{display: 'flex', justifyContent: 'center', gap: 3, overflow:'hidden' }}>
         <Slide direction="up" in={true} container={containerRef.current}>
           <Box sx={{ width: 1 / 3, bgcolor: '#181a1c', color: 'white', borderRadius: '20px', padding: 3 }}>
             <Typography variant='h5' sx={{ fontWeight: 700 }}>Total Interactions</Typography>
