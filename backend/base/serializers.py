@@ -208,6 +208,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 class ExtendedQuestionSerializer(serializers.ModelSerializer):
     options = serializers.SerializerMethodField()
     filterObjs = serializers.SerializerMethodField()
+
     class Meta:
         model = Question
         fields = ['id', 'question', 'survey', 'options', 'filterObjs']
@@ -217,12 +218,12 @@ class ExtendedQuestionSerializer(serializers.ModelSerializer):
         options = instance.options.all()
         serializer = OptionSerializer(options, many=True)
         return serializer.data
-    
 
     def get_filterObjs(self, instance):
         filterObjs = instance.questionFIlterObjs.all()
         serializer = FilterSerializer(filterObjs, many=True)
         return serializer.data
+
 
 class TotalViewSerialiser(serializers.ModelSerializer):
     vote_count = serializers.SerializerMethodField()
@@ -554,6 +555,7 @@ class InteractionSubmitSerializer(serializers.ModelSerializer):
 
 class FilterSerializer(serializers.ModelSerializer):
     option_text = serializers.SerializerMethodField()
+
     class Meta:
         model = FilterObj
         fields = ['id', 'option', 'question', 'survey', 'option_text']
@@ -565,28 +567,58 @@ class FilterSerializer(serializers.ModelSerializer):
         request = self.context['request']
         if request.method == 'POST':
             print(self.context)
+            surveyObj = Survey.objects.get(id=int(self.context['survey']))
+            if FilterObj.objects.filter(question=self.validated_data['question']).exists():
+                self.instance = FilterObj.objects.get(
+                    question=self.validated_data['question'])
 
-            (self.instance, created) = FilterObj.objects.get_or_create(
-                survey=Survey.objects.get(id=int(self.context['survey'])),
-                option=self.validated_data['option'],
-                question=self.validated_data['question'],
-            )
+                if self.instance.option == self.validated_data['option']:
+                    return self.instance
+                else:
+                    self.instance.option = self.validated_data['option']
+                    self.instance.save()
+                    vote_objs = Vote.objects.filter(question__survey=surveyObj)
+                    vote_objs.update(show=True)
 
-            survey_obj = Survey.objects.get(id=self.context['survey'])
-            vote_objs = Vote.objects.filter(question__survey=survey_obj)
+                    interactionInstances = surveyObj.interactions.all()
+                    filterInstances = surveyObj.filterObjs.all()
 
-            interaction_items = InteractionItem.objects.filter(
-                option=self.instance.option)
+                    for interactionInsance in interactionInstances:
+                        for filterInstance in filterInstances:
+                            question = filterInstance.question
+                            option = filterInstance.option
 
-            # Query to filter Interaction objects that have an interaction with the interaction items
-            users = User.objects.filter(
-                interaction__interactionItems__in=interaction_items)
-            votes = Vote.objects.exclude(
-                user__in=users, question__survey=survey_obj)
+                            # Check if the interaction contains the same option for the question
+                            if not interactionInsance.interactionItems.filter(question=question, option=option).exists():
+                                # Set all vote objects of that user in survey id = 1 to show = False
+                                user = interactionInsance.user
+                                Vote.objects.filter(
+                                    user=user, question__survey=surveyObj
+                                ).update(show=False)
+                    return self.instance
 
-            votes.update(show=False)
-            print('USERS: ', users)
-            return self.instance
+            else:
+                (self.instance, created) = FilterObj.objects.get_or_create(
+                    survey=Survey.objects.get(id=int(self.context['survey'])),
+                    option=self.validated_data['option'],
+                    question=self.validated_data['question'],
+                )
+
+                survey_obj = Survey.objects.get(id=self.context['survey'])
+                vote_objs = Vote.objects.filter(question__survey=survey_obj)
+
+                interaction_items = InteractionItem.objects.filter(
+                    option=self.instance.option)
+
+                # Query to filter Interaction objects that have an interaction with the interaction items
+                users = User.objects.filter(
+                    interaction__interactionItems__in=interaction_items)
+                votes = Vote.objects.exclude(
+                    user__in=users, question__survey=survey_obj)
+
+                votes.update(show=False)
+                print('USERS: ', users)
+                return self.instance
 
     def get_option_text(self, instance):
         return instance.option.option

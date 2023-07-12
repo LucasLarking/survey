@@ -18,7 +18,7 @@ const FilterQuestion = ({ question }: Props) => {
     
     // const options = question.options.map((option) => {option.option: option.id})
     console.log('Filter', question.filterObjs)
-
+    const [disabled, setDisabled] = useState<boolean>(false)
     return (
 
 
@@ -29,10 +29,9 @@ const FilterQuestion = ({ question }: Props) => {
                 <FormControl>
                     <InputLabel sx={{ color: 'white' }} id="demo-multiple-checkbox-label">Options</InputLabel>
                     <Select
+                   
                         sx={{ bgcolor: '#24272a', color: 'white', minWidth: 200 }}
-                        // multiple
                         value={selectedOption}
-                        // renderValue={(selected) => selected.join(', ')}
                         onChange={(e) => {
                             setSelectedOption(e.target.value);
                             const option = question.options.filter((item) => item.option == e.target.value)[0]
@@ -43,7 +42,7 @@ const FilterQuestion = ({ question }: Props) => {
                                 question: question.id
 
                             })
-
+                 
                         }}
                     >
                         {question.options.map((option) => (
