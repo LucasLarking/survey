@@ -21,17 +21,17 @@ const FilterResponses = ({ questions }: Props) => {
 
       <Box>
 
-        <Typography variant='h4' sx={{ color: '#6ceca8', mb: 3 }}>Filter Respondants</Typography>
-        <Table sx={{ bgcolor: '#181a1c', color: 'white' }}>
-          <TableHead sx={{ backgroundColor: '#24272a' }}>
+        <Typography variant='h4' sx={{ color: 'secondary.main', mb: 3 }}>Filter Respondants</Typography>
+        <Table sx={{ bgcolor: 'primary.light', color: 'white' }}>
+          <TableHead sx={{ backgroundColor: 'primary.main' }}>
             <TableRow>
 
 
-              <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }}>Question</TableCell>
+              <TableCell sx={{ color: 'secondary.main', fontWeight: 700 }}>Question</TableCell>
 
-              {isLargeScreen && <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }} >Options</TableCell>}
-            <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }} align='center'>Applied Filters</TableCell>
-              
+              {isLargeScreen && <TableCell sx={{ color: 'secondary.main', fontWeight: 700 }} >Options</TableCell>}
+              <TableCell sx={{ color: 'secondary.main', fontWeight: 700 }} align='center'>Applied Filters</TableCell>
+
 
             </TableRow>
           </TableHead>
@@ -53,7 +53,13 @@ const FilterResponses = ({ questions }: Props) => {
           disableElevation
 
           size="large"
-          sx={{ fontWeight: 700, letterSpacing: 0.5, bgcolor: '#6ceca8', color: 'black', mt: 2 }}
+          sx={{
+            fontWeight: 700, letterSpacing: 0.5, bgcolor: 'secondary.main', color: 'black', mt: 2,
+            '&:hover': {
+              bgcolor: 'secondary.dark', // Update the color on hover
+              color:'white'
+            },
+          }}
           endIcon={<DeleteIcon />}
           onClick={() => {
             clearFilter.mutate({

@@ -43,11 +43,11 @@ const InteractionChart = ({ dates, data }: Props) => {
 
                 <LineChart
                     {...lineChartsParams}
-                    sx={{ '& .MuiMarkElement-root': { display: 'none' }, bgcolor: '#181a1c' }}
+                    sx={{ '& .MuiMarkElement-root': { display: 'none' }, bgcolor: 'primary.light' }}
                     xAxis={[{ data: dates, scaleType: 'time', valueFormatter: yearFormater }]}
                     yAxis={[{ scaleType: 'linear' }]}
                     series={lineChartsParams.series.map((s) => ({ ...s }))}
-                    colors={['#6ceca8']}
+                    colors={['secondary.main']}
 
 
                 />

@@ -33,7 +33,7 @@ const FilterQuestion = ({ question }: Props) => {
                         <FormControl sx={{display:'block', mt:3}}>
                             <InputLabel sx={{ color: 'white' }} id="demo-multiple-checkbox-label">Options</InputLabel>
                             <Select
-                                sx={{ bgcolor: '#24272a', color: 'white', width:'200px', maxWidth:'100%' }}
+                                sx={{ bgcolor: 'primary.main', color: 'white', width:'200px', maxWidth:'100%' }}
                                 value={selectedOption}
                                 onChange={(e) => {
                                     setSelectedOption(e.target.value);
@@ -63,7 +63,7 @@ const FilterQuestion = ({ question }: Props) => {
                         <FormControl>
                             <InputLabel sx={{ color: 'white' }} id="demo-multiple-checkbox-label">Options</InputLabel>
                             <Select
-                                sx={{ bgcolor: '#24272a', color: 'white', width:'300px' }}
+                                sx={{ bgcolor: 'primary.main', color: 'white', width:'300px' }}
                                 value={selectedOption}
                                 onChange={(e) => {
                                     setSelectedOption(e.target.value);
@@ -92,7 +92,7 @@ const FilterQuestion = ({ question }: Props) => {
             <TableCell align='center' sx={{}}>
 
                 {question.filterObjs.map((filterObj) => (
-                    <Chip key={filterObj.id} sx={{ color: 'white', bgcolor: '#24272a', mx: 1 }} label={filterObj.option_text} color='warning' />
+                    <Chip key={filterObj.id} sx={{ color: 'white', bgcolor: 'primary.main', mx: 1 }} label={filterObj.option_text} color='warning' />
                 ))}
             </TableCell>
 

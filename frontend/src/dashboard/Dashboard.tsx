@@ -46,7 +46,7 @@ const Dashboard = () => {
                 </Box>
                 <FilterResponses questions={questions}/>
                 <Box sx={{display:'flex', flexDirection:'column', gap:3}}>
-                <Typography variant='h4' sx={{ color: '#6ceca8'}}>Questions</Typography>
+                <Typography variant='h4' sx={{ color: 'secondary.main'}}>Questions</Typography>
                     {questions.map((question) => (
                         <Box key={question.id} className="question">
                             <QuestionChart question={question} />

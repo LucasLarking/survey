@@ -21,7 +21,7 @@ const Questions = ({ questions, interaction_obj }: Props) => {
                     }}
                 >
 
-                    <Typography variant='h4' sx={{ color: '#6ceca8' }}>{question.question}</Typography>
+                    <Typography variant='h4' sx={{ color: 'secondary.main' }}>{question.question}</Typography>
                     <Box>
                         {question.options.map((option) => (
                             <Box
@@ -31,7 +31,7 @@ const Questions = ({ questions, interaction_obj }: Props) => {
                                     alignItems: 'center',
                                     gap: 2,
                                     width: '100%',
-                                    bgcolor: option.id == interaction_obj?.questions[qIndex].option ? '#24272a' : '#181a1c',
+                                    bgcolor: option.id == interaction_obj?.questions[qIndex].option ? 'primary.main' : 'primary.light',
                                     p: 3,
                                     my: 2,
                                     borderRadius: '5px',

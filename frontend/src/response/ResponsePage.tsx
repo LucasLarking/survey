@@ -29,7 +29,7 @@ const ResponsePage = () => {
   return (
 
     <Container sx={{ position: 'relative', marginTop: '10vh' }}>
-      <Typography variant='h3' component={'h1'} sx={{ fontWeight: 700, color: '#6ceca8' }}>{survey?.survey}</Typography>
+      <Typography variant='h3' component={'h1'} sx={{ fontWeight: 700, color: 'secondary.main' }}>{survey?.survey}</Typography>
       <Typography variant='h5' component={'h1'} sx={{ color: 'white' }}>All answers from {interaction_obj?.user.first_name} {interaction_obj?.user.last_name} - {interaction_obj?.user.email}</Typography>
 
 

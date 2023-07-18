@@ -22,22 +22,22 @@ const UserList = () => {
     return (
         <Box>
 
-            <Typography variant='h4' sx={{ color: '#6ceca8', mb: 3 }}>Respondants</Typography>
-            <Table sx={{ bgcolor: '#181a1c', color: 'white' }}>
-                <TableHead sx={{ backgroundColor: '#24272a' }}>
+            <Typography variant='h4' sx={{ color: 'secondary.main', mb: 3 }}>Respondants</Typography>
+            <Table sx={{ bgcolor: 'primary.light', color: 'white' }}>
+                <TableHead sx={{ backgroundColor: 'primary.main' }}>
                     <TableRow>
 
                         {isLargeScreen && (
                             <>
 
-                                <TableCell sx={{ color: '#6ceca8', fontWeight: 700, }}>Username</TableCell>
-                                <TableCell sx={{ color: '#6ceca8', fontWeight: 700, }} >Name</TableCell>
-                                <TableCell sx={{ color: '#6ceca8', fontWeight: 700, }}>Email</TableCell>
+                                <TableCell sx={{ color: 'secondary.main', fontWeight: 700, }}>Username</TableCell>
+                                <TableCell sx={{ color: 'secondary.main', fontWeight: 700, }} >Name</TableCell>
+                                <TableCell sx={{ color: 'secondary.main', fontWeight: 700, }}>Email</TableCell>
                             </>
                         )}
 
-                        {!isLargeScreen && <TableCell sx={{ color: '#6ceca8', fontWeight: 700, }}>User</TableCell>}
-                   <TableCell sx={{ color: '#6ceca8', fontWeight: 700, }} align="right">Handle Submission</TableCell>
+                        {!isLargeScreen && <TableCell sx={{ color: 'secondary.main', fontWeight: 700, }}>User</TableCell>}
+                   <TableCell sx={{ color: 'secondary.main', fontWeight: 700, }} align="right">Handle Submission</TableCell>
 
 
                     </TableRow>

@@ -34,7 +34,7 @@ const Navbar = () => {
 
 
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" sx={{ bgcolor: '#181a1c' }}>
+        <AppBar position="static" sx={{ bgcolor: 'primary.light' }}>
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Box className="leftNav" sx={{ flexGrow: 1, display: 'flex', gap: 2, alignItems: 'center' }}>
@@ -51,7 +51,7 @@ const Navbar = () => {
                       sx={{ color: 'white', textDecoration: 'none', fontSize: 18, letterSpacing: 1, fontWeight:700 }}
                       onClick={() => { localStorage.removeItem('access'); localStorage.removeItem('refresh'); localStorage.removeItem('username'); navigate('/') }}
                     >Log Out</Button>)}
-                  <Button sx={{ display: 'block', fontWeight: 700, bgcolor: '#6ceca8', color: 'black', fontSize:18 }} variant="contained" disableElevation>Create</Button>
+                  <Button sx={{ display: 'block', fontWeight: 700, bgcolor: 'secondary.main', color: 'black', fontSize:18 }} variant="contained" disableElevation>Create</Button>
                 </Box>
               </Box>
               <Box className="rightNav">
