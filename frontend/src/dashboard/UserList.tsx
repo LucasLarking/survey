@@ -1,6 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import useGetInteraction from '../interaction/hooks/useGetInteraction';
 import useGetSurveyUsers from './hooks/useGetSureyUsers';
@@ -12,6 +12,8 @@ const UserList = () => {
     const getInteraction = useGetInteraction(survey_id)
     const { data: users, error, isLoading } = useGetSurveyUsers(survey_id);
     const removeUser = useRemoveUserFromSurvey(1)
+    const theme = useTheme();
+    const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
     if (isLoading) return <p></p>
     if (error) return <p>error</p>
@@ -19,27 +21,39 @@ const UserList = () => {
 
     return (
         <Box>
-        
-            <Typography variant='h4' sx={{ color: '#6ceca8', mb:3}}>Respondants</Typography>
-            <Table sx={{ minWidth: 650, bgcolor: '#181a1c', color: 'white' }}>
+
+            <Typography variant='h4' sx={{ color: '#6ceca8', mb: 3 }}>Respondants</Typography>
+            <Table sx={{ bgcolor: '#181a1c', color: 'white' }}>
                 <TableHead sx={{ backgroundColor: '#24272a' }}>
                     <TableRow>
 
+                        {isLargeScreen && (
+                            <>
 
-                        <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }}>Username</TableCell>
-                        <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }} >Name</TableCell>
-                        <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }}>Email</TableCell>
-                        <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }} align="right">Handle Submission</TableCell>
+                                <TableCell sx={{ color: '#6ceca8', fontWeight: 700, }}>Username</TableCell>
+                                <TableCell sx={{ color: '#6ceca8', fontWeight: 700, }} >Name</TableCell>
+                                <TableCell sx={{ color: '#6ceca8', fontWeight: 700, }}>Email</TableCell>
+                            </>
+                        )}
+
+                        {!isLargeScreen && <TableCell sx={{ color: '#6ceca8', fontWeight: 700, }}>User</TableCell>}
+                   <TableCell sx={{ color: '#6ceca8', fontWeight: 700, }} align="right">Handle Submission</TableCell>
+
+
                     </TableRow>
                 </TableHead>
 
                 <TableBody>
                     {users.map((user) => (
                         <TableRow key={user.id}>
-
-                            <TableCell sx={{ color: 'white' }}>{user.username}</TableCell>
-                            <TableCell sx={{ color: 'white' }}>{user.first_name} {user.last_name}</TableCell>
-                            <TableCell sx={{ color: 'white' }} >{user.email}</TableCell>
+                            {isLargeScreen && (
+                                <>
+                                    <TableCell sx={{ color: 'white' }}>{user.username}</TableCell>
+                                    <TableCell sx={{ color: 'white' }}>{user.first_name} {user.last_name}</TableCell>
+                                    <TableCell sx={{ color: 'white' }} >{user.email}</TableCell></>
+                            )}
+                            {!isLargeScreen && <TableCell sx={{ color: 'white' }}>{user.username} - {user.email}</TableCell>}
+                            
                             <TableCell sx={{ color: 'white' }} align="right">
                                 <Tooltip title="Delete" color='inherit'>
                                     <IconButton aria-label="delete" color="inherit" onClick={() => {

@@ -238,10 +238,10 @@ class EmailView(APIView):
     #     interaction = Interaction.objects.create(
     #         started=random_datetime,
     #         completed=random_datetime + timedelta(minutes=random.randint(0, 25)),
-    #         survey=Survey.objects.get(id=13),
+    #         survey=Survey.objects.get(id=1),
     #         user=User.objects.get(id=1),
     #     )
-    # #     interaction.save()
+    #     interaction.save()
 
     def post(self, request):
         print('Data', request.data)

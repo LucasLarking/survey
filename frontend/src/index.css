@@ -34,3 +34,7 @@ body {
   border-bottom: 3px solid #24272a !important;
 
 }
+
+.css-h75vyy-MuiTableCell-root, .css-1vd3ov5-MuiTableCell-root, .css-1jwjceu-MuiTableCell-root, .css-ir1m7m-MuiTableCell-root {
+  border: none !important;
+}

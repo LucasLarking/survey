@@ -1,5 +1,5 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { ExtendedQuestion } from '../../question/hooks/useGetExtendedQuestion';
 import FilterQuestion from './FilterQuestion';
@@ -13,6 +13,8 @@ const FilterResponses = ({ questions }: Props) => {
   const { slug } = useParams();
   const survey_id = parseInt(slug!);
   const clearFilter = useClearFilter(survey_id)
+  const theme = useTheme();
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
   return (
     <>
 
@@ -20,14 +22,16 @@ const FilterResponses = ({ questions }: Props) => {
       <Box>
 
         <Typography variant='h4' sx={{ color: '#6ceca8', mb: 3 }}>Filter Respondants</Typography>
-        <Table sx={{ minWidth: 650, bgcolor: '#181a1c', color: 'white' }}>
+        <Table sx={{ bgcolor: '#181a1c', color: 'white' }}>
           <TableHead sx={{ backgroundColor: '#24272a' }}>
             <TableRow>
 
 
               <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }}>Question</TableCell>
-              <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }} >Options</TableCell>
-              <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }} align='center'>Applied Filters</TableCell>
+
+              {isLargeScreen && <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }} >Options</TableCell>}
+            <TableCell sx={{ color: '#6ceca8', fontWeight: 700 }} align='center'>Applied Filters</TableCell>
+              
 
             </TableRow>
           </TableHead>
@@ -53,8 +57,8 @@ const FilterResponses = ({ questions }: Props) => {
           endIcon={<DeleteIcon />}
           onClick={() => {
             clearFilter.mutate({
-              question:0,
-              option:0
+              question: 0,
+              option: 0
             })
           }}>
           Clear Filters

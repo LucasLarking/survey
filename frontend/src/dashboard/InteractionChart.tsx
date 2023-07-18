@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import { LineChart } from '@mui/x-charts';
 
+
 interface Props {
     dates: Date[],
     data: number[]
@@ -16,6 +17,9 @@ const InteractionChart = ({ dates, data }: Props) => {
     let previousDate = dates[0]
     let iteration = 0;
 
+    // console.log(dates)
+
+    const dayDiff = dates[dates.length - 1].getTime() - dates[0].getTime() / (1000 * 60 * 60 * 24)
 
     const yearFormater = (date: Date) => {
         iteration++;
@@ -25,18 +29,21 @@ const InteractionChart = ({ dates, data }: Props) => {
         if (previousDate && previousDate.getMonth() !== date.getMonth()) { previousDate = date; return date.toLocaleString('default', { month: 'long' }); }
 
         previousDate = date;
-        return `${date.getDate()}`;
+        if (dayDiff < (4 * 31)) {
+            return `${date.getDate()}`;
+        }
+        return ''
 
     };
 
 
     return (
         <>
-            <Box sx={{position: 'relative', borderRadius: '10px', marginTop: '-50px' }}>
+            <Box sx={{ position: 'relative', borderRadius: '10px', marginTop: '-50px' }}>
 
                 <LineChart
                     {...lineChartsParams}
-                    sx={{ '& .MuiMarkElement-root': { display: 'none' },  bgcolor: '#181a1c' }}
+                    sx={{ '& .MuiMarkElement-root': { display: 'none' }, bgcolor: '#181a1c' }}
                     xAxis={[{ data: dates, scaleType: 'time', valueFormatter: yearFormater }]}
                     yAxis={[{ scaleType: 'linear' }]}
                     series={lineChartsParams.series.map((s) => ({ ...s }))}
