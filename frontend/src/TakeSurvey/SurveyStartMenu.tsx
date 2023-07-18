@@ -20,9 +20,16 @@ const SurveyStartMenu = ({ hastStarted, setHasStarted }: Props) => {
 
     return (
         <>
-            <Box sx={{ background: 'lightblue', p: 10, m:10, border:'1px solid green' }}>
-                <Typography variant='h3'>Take Survey</Typography>
-                <Button onClick={(e) => { createInteraction.mutate(); setHasStarted(true);}}>Start</Button>
+            <Box sx={{ bgcolor: 'primary.main', p: 10, m: 10, display:'flex', flexDirection:'column', alignItems:'center' }}>
+                <Typography variant='h3' color={'secondary.main'}>Take Survey</Typography>
+                <Button onClick={(e) => { createInteraction.mutate(); setHasStarted(true); }} sx={{
+                    mt:5,
+                    px:5,
+                    color: 'black', bgcolor: 'secondary.main', '&:hover': {
+                        bgcolor: 'secondary.dark',
+                        color: 'white'
+                    },
+                }} variant='contained'>Start</Button>
             </Box>
         </>
     )

@@ -19,11 +19,11 @@ const TakeSurvey = () => {
     if (error) return <p>{error.message}</p>
     return (
         <>
-            <Container sx={{ bgcolor: 'white' }}>
+            <Container sx={{marginTop: '10vh'}}>
                 {!hastStarted && <SurveyStartMenu hastStarted={hastStarted} setHasStarted={setHasStarted} />}
                 {hastStarted && (
                     <>
-                        <Typography variant='h1'>{survey?.survey}</Typography>
+                        <Typography  variant='h3' component={'h1'} sx={{color:'secondary.main'}}>{survey?.survey}</Typography>
                         <TakeQuestions />
 
                     </>
