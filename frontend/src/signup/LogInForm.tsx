@@ -55,16 +55,16 @@ const LogInForm = () => {
                 <Typography variant='body1' sx={{ fontWeight: 700, opacity: 0.7 }}>Don't have an account? <Link to='/signup' sx={{ textDecoration: 'None' }} component={RouterLink}>Register</Link>.</Typography>
                 <FormControl sx={{ display: 'flex', flexDirection: 'column', gap: 3, maxWidth: 400, mt: 5 }}>
 
-                  
-                        <TextField sx={{ bgcolor: 'white' }}   {...register('username')} fullWidth id="username" error={!!errors['username']} helperText={errors.username?.message} label="Username" variant="outlined"
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="start">
-                                        <AccountCircle />
-                                    </InputAdornment>
-                                ),
-                            }} />
-                
+
+                    <TextField sx={{ bgcolor: 'white' }}   {...register('username')} fullWidth id="username" error={!!errors['username']} helperText={errors.username?.message} label="Username" variant="outlined"
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    <AccountCircle />
+                                </InputAdornment>
+                            ),
+                        }} />
+
 
                     <TextField
                         InputProps={{
@@ -85,12 +85,18 @@ const LogInForm = () => {
                 <LoadingButton
                     // onClick={(e) => { setLoading(!loading); }}
                     type="submit"
+                    disableElevation
                     endIcon={<SendIcon />}
                     loading={loading}
                     loadingPosition="end"
                     variant="contained"
                     fullWidth
-                    sx={{ mt: 5, p: 2, fontWeight: 700, letterSpacing: 2, maxWidth: 400 }}
+                    sx={{
+                        mt: 5, p: 2, fontWeight: 700, letterSpacing: 2, maxWidth: 400, bgcolor: 'secondary.main', color: 'black', '&:hover': {
+                            bgcolor: 'secondary.dark', // Update the color on hover
+                            color: 'white'
+                        },
+                    }}
                 >
                     <Box sx={{ mx: 1 }}>LOG IN</Box>
                 </LoadingButton>

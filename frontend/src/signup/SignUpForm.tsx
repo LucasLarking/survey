@@ -157,61 +157,61 @@ const SignUpForm = () => {
             <Box method='post' component={'form'} onSubmit={handleSubmit(formSubmit)} sx={{ maxWidth: 600, my: 20 }} >
                 <Typography variant='subtitle2' sx={{ fontWeight: 700, opacity: 0.7 }}>REGISTER NOW.</Typography>
                 <Typography variant='h3' component={'h1'} sx={{ fontWeight: 700, my: 2 }}>Sign Up For Free.</Typography>
-                <Typography variant='body1' sx={{ fontWeight: 700, opacity: 0.7 }}>Alread have an account? <Link  sx={{ textDecoration: 'None' }} component={RouterLink} to='/login'>Log in</Link>.</Typography>
+                <Typography variant='body1' sx={{ fontWeight: 700, opacity: 0.7 }}>Alread have an account? <Link sx={{ textDecoration: 'None' }} component={RouterLink} to='/login'>Log in</Link>.</Typography>
                 <FormControl sx={{ display: 'flex', flexDirection: 'column', gap: 3, maxWidth: 400, mt: 5 }}>
 
 
-                    <TextField sx={{ bgcolor: 'white' }}   {...register('username')} fullWidth id="username"  error={!!errors['username'] || showUsernameError} helperText={usernameError || errors.username?.message} label="Username" variant="outlined" 
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="start">
-                                <AccountCircle />
-                            </InputAdornment>
-                        ),
-                    }} />
+                    <TextField sx={{ bgcolor: 'white' }}   {...register('username')} fullWidth id="username" error={!!errors['username'] || showUsernameError} helperText={usernameError || errors.username?.message} label="Username" variant="outlined"
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    <AccountCircle />
+                                </InputAdornment>
+                            ),
+                        }} />
 
 
 
-                    <TextField 
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="start">
-                                <IconButton sx={{m:0, p:0}} aria-label="toggle password visibility" onClick={(e) => setShowPassword(!showPassword)} >
-                                {showPassword ? <VisibilityIcon /> : <VisibilityOff  /> }
-
-                                
-                                </IconButton>
-                            </InputAdornment>
-                        ),
-                    }}
-                    sx={{ bgcolor: 'white' }}  {...register('password')} type={showPassword ? 'password' : 'text'} id="password" error={!!errors['password'] || showPasswordError} helperText={passwordError || errors.password?.message} label="Password" variant="outlined"  />
-                    <TextField 
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="start" >
-                                 <EmailIcon />
-                            </InputAdornment>
-                        ),
-                    }}
-                    sx={{ bgcolor: 'white' }} {...register('email')} id="email" error={!!errors['email'] || showEmailError} helperText={emailError || errors.email?.message} label="Email" variant="outlined" />
                     <TextField
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="start">
-                                <Face2Icon  />
-                            </InputAdornment>
-                        ),
-                    }}
-                    sx={{ bgcolor: 'white' }} {...register('first_name')} id="first_name" error={!!errors['first_name'] || showFirst_nameError} helperText={first_nameError || errors.first_name?.message} label="First Name" variant="outlined" />
-                    <TextField 
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="start">
-                                <Face2Icon  />
-                            </InputAdornment>
-                        ),
-                    }}
-                    sx={{ bgcolor: 'white' }} {...register('last_name')} id="last_name" error={!!errors['last_name'] || showLast_nameError} helperText={last_nameError || errors.last_name?.message} label="Last Name" variant="outlined" />
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    <IconButton sx={{ m: 0, p: 0 }} aria-label="toggle password visibility" onClick={(e) => setShowPassword(!showPassword)} >
+                                        {showPassword ? <VisibilityIcon /> : <VisibilityOff />}
+
+
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                        sx={{ bgcolor: 'white' }}  {...register('password')} type={showPassword ? 'password' : 'text'} id="password" error={!!errors['password'] || showPasswordError} helperText={passwordError || errors.password?.message} label="Password" variant="outlined" />
+                    <TextField
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start" >
+                                    <EmailIcon />
+                                </InputAdornment>
+                            ),
+                        }}
+                        sx={{ bgcolor: 'white' }} {...register('email')} id="email" error={!!errors['email'] || showEmailError} helperText={emailError || errors.email?.message} label="Email" variant="outlined" />
+                    <TextField
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    <Face2Icon />
+                                </InputAdornment>
+                            ),
+                        }}
+                        sx={{ bgcolor: 'white' }} {...register('first_name')} id="first_name" error={!!errors['first_name'] || showFirst_nameError} helperText={first_nameError || errors.first_name?.message} label="First Name" variant="outlined" />
+                    <TextField
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    <Face2Icon />
+                                </InputAdornment>
+                            ),
+                        }}
+                        sx={{ bgcolor: 'white' }} {...register('last_name')} id="last_name" error={!!errors['last_name'] || showLast_nameError} helperText={last_nameError || errors.last_name?.message} label="Last Name" variant="outlined" />
                 </FormControl>
 
                 <LoadingButton
@@ -222,7 +222,15 @@ const SignUpForm = () => {
                     loadingPosition="end"
                     variant="contained"
                     fullWidth
-                    sx={{ mt: 5, p: 2, fontWeight: 700, letterSpacing: 2, maxWidth: 400 }}
+                    disableElevation
+                    sx={{
+                        mt: 5, p: 2, fontWeight: 700, letterSpacing: 2, maxWidth: 400, bgcolor: 'secondary.main', color: 'black', '&:hover': {
+                            bgcolor: 'secondary.dark', // Update the color on hover
+                            color: 'white'
+                        },
+                    }}
+                
+           
                 >
                     <Box sx={{ mx: 1 }}>SIGN UP</Box>
                 </LoadingButton>

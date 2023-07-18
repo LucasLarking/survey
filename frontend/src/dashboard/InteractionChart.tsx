@@ -47,7 +47,7 @@ const InteractionChart = ({ dates, data }: Props) => {
                     xAxis={[{ data: dates, scaleType: 'time', valueFormatter: yearFormater }]}
                     yAxis={[{ scaleType: 'linear' }]}
                     series={lineChartsParams.series.map((s) => ({ ...s }))}
-                    colors={['secondary.main']}
+                    colors={['#6ceca8']}
 
 
                 />
