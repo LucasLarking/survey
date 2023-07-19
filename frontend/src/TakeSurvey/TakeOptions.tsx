@@ -54,15 +54,21 @@ const TakeOptions = ({ question, isSelected, setIsSelected }: Props) => {
                                     sx={{
                                         display: 'flex',
                                         alignItems: 'center',
+                                        boxSizing: 'border-box',
                                         gap: 2,
                                         // bgcolor: 'primary.light',
-                                        transition:'.2s ease-in-out background',
+                                        transition: '.15s ease-in-out background',
                                         bgcolor: isSelected == option.id ? 'secondary.main' : 'primary.main',
                                         p: 3,
                                         my: 2,
                                         borderRadius: '5px',
                                         width: '100%',
-                                        color: isSelected == option.id ? 'black' : 'white'
+                                        color: isSelected == option.id ? 'black' : 'white',
+                                        '&:hover': {
+                                            bgcolor: isSelected == option.id ? 'secondary.main' : 'primary.light',
+                                            // border: '1px solid green', // Update the color on hover
+                                            // color: 'white'
+                                        },
                                     }}
                                 />
 

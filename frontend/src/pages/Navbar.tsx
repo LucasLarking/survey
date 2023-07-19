@@ -1,15 +1,20 @@
 
-import { AppBar, Box, Button, Container, IconButton, Toolbar } from '@mui/material';
+import { AppBar, Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Toolbar } from '@mui/material';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import ShareButton from '../share/ShareButton';
 import { AccountCircle } from '@mui/icons-material';
-
+import AddIcon from '@mui/icons-material/Add';
+import { useState } from 'react';
+import SurveyPopup from '../survey/SurveyPopup';
+import SurveyForm from '../survey/SurveyForm';
 
 
 const Navbar = () => {
 
   const location = useLocation();
   const navigate = useNavigate()
+  const [showSurveyPopUp, setShowSurveyPopUp] = useState<boolean>(false)
+  const [open, setOpen] = useState(false)
   console.log(location.pathname)
   const username = localStorage.getItem('username')
   console.log(username)
@@ -34,12 +39,11 @@ const Navbar = () => {
                       sx={{ color: 'white', textDecoration: 'none', fontSize: 18, letterSpacing: 1, fontWeight: 700 }}
                       onClick={() => { localStorage.removeItem('access'); localStorage.removeItem('refresh'); localStorage.removeItem('username'); navigate('/') }}
                     >Log Out</Button>)}
-                  <Button sx={{
-                    display: 'block', fontWeight: 700, bgcolor: 'secondary.main', color: 'black', fontSize: 18, '&:hover': {
-                      bgcolor: 'secondary.dark', 
-                      color: 'white'
-                    },
-                  }} variant="contained" disableElevation>Create</Button>
+
+                  <IconButton aria-label="create" color="secondary" onClick={() => setOpen(true)}>
+                    <AddIcon  />
+                  </IconButton>
+                
                 </Box>
               </Box>
               <Box className="rightNav">
@@ -62,6 +66,17 @@ const Navbar = () => {
           </Container>
         </AppBar>
       </Box >
+
+
+
+      <Dialog onClose={() => { setOpen(false)}} open={open} >
+            <DialogTitle variant='h5' sx={{ color: 'secondary.dark', px:'50px', pt:'40px' }}>Create Survey</DialogTitle>
+            <DialogContent sx={{ width: '500px', px:'50px', pb:'40px'}}>
+                <SurveyForm />
+                {/* <TextField autoFocus label="Survey Name" fullWidth variant="standard" /> */}
+            </DialogContent>
+          
+        </Dialog>
     </>
   )
 }
