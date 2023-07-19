@@ -7,6 +7,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import SurveyPopup from '../survey/SurveyPopup';
 import SurveyForm from '../survey/SurveyForm';
+import CreateSurveyPopup from './CreateSurveyPopup';
+import NavAccountPopUp from './NavAccountPopUp';
 
 
 const Navbar = () => {
@@ -14,7 +16,7 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate()
   const [showSurveyPopUp, setShowSurveyPopUp] = useState<boolean>(false)
-  const [open, setOpen] = useState(false)
+  // const [open, setOpen] = useState(false)
   console.log(location.pathname)
   const username = localStorage.getItem('username')
   console.log(username)
@@ -34,30 +36,16 @@ const Navbar = () => {
                       sx={{ color: 'white', textDecoration: 'none', fontWeight: 700, fontSize: 18, letterSpacing: 1 }}
                       component={RouterLink} to={'/login'}
                     >Log In</Button>)}
-                  {username && (
-                    <Button
-                      sx={{ color: 'white', textDecoration: 'none', fontSize: 18, letterSpacing: 1, fontWeight: 700 }}
-                      onClick={() => { localStorage.removeItem('access'); localStorage.removeItem('refresh'); localStorage.removeItem('username'); navigate('/') }}
-                    >Log Out</Button>)}
+               
 
-                  <IconButton aria-label="create" color="secondary" onClick={() => setOpen(true)}>
-                    <AddIcon  />
-                  </IconButton>
+                  <CreateSurveyPopup />
                 
                 </Box>
               </Box>
               <Box className="rightNav">
                 {username && (
 
-                  <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    color="inherit"
-                  >
-                    <AccountCircle />
-                  </IconButton>
+                  <NavAccountPopUp />
                 )}
 
 
@@ -69,14 +57,7 @@ const Navbar = () => {
 
 
 
-      <Dialog onClose={() => { setOpen(false)}} open={open} >
-            <DialogTitle variant='h5' sx={{ color: 'secondary.dark', px:'50px', pt:'40px' }}>Create Survey</DialogTitle>
-            <DialogContent sx={{ width: '500px', px:'50px', pb:'40px'}}>
-                <SurveyForm />
-                {/* <TextField autoFocus label="Survey Name" fullWidth variant="standard" /> */}
-            </DialogContent>
-          
-        </Dialog>
+
     </>
   )
 }

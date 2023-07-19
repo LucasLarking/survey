@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom'
-import Navbar from './Navbar'
+import Navbar from '../navbar/Navbar'
 
 const PrivateRoutes = () => {
     const username = localStorage.getItem('username')
