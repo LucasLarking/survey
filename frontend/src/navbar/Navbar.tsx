@@ -9,6 +9,7 @@ import SurveyPopup from '../survey/SurveyPopup';
 import SurveyForm from '../survey/SurveyForm';
 import CreateSurveyPopup from './CreateSurveyPopup';
 import NavAccountPopUp from './NavAccountPopUp';
+import { motion } from 'framer-motion';
 
 
 const Navbar = () => {
@@ -29,17 +30,31 @@ const Navbar = () => {
             <Toolbar disableGutters>
               <Box className="leftNav" sx={{ flexGrow: 1, display: 'flex', gap: 2, alignItems: 'center' }}>
 
-                <Button sx={{ color: 'white', display: 'block', fontWeight: 700, fontSize: 18 }} component={RouterLink} to={'/'}>HOME</Button>
+                <motion.div
+                  initial={{ y: 10, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{ duration: .2 }}>
+
+                  <Button sx={{ color: 'white', display: 'block', fontWeight: 700, fontSize: 18 }} component={RouterLink} to={'/'}>HOME</Button>
+                </motion.div>
                 <Box sx={{ display: 'flex', gap: 3 }}>
                   {!username && (
-                    <Button
-                      sx={{ color: 'white', textDecoration: 'none', fontWeight: 700, fontSize: 18, letterSpacing: 1 }}
-                      component={RouterLink} to={'/login'}
-                    >Log In</Button>)}
-               
+
+                    <motion.div
+                      initial={{ y: 10, opacity: 0 }}
+                      whileInView={{ y: 0, opacity: 1 }}
+                      transition={{ duration: .2, delay: .1 }}>
+
+                      <Button
+                        sx={{ color: 'white', textDecoration: 'none', fontWeight: 700, fontSize: 18, letterSpacing: 1 }}
+                        component={RouterLink} to={'/login'}
+                      >Log In</Button>
+                    </motion.div>
+                  )}
+
 
                   <CreateSurveyPopup />
-                
+
                 </Box>
               </Box>
               <Box className="rightNav">
