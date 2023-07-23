@@ -5,6 +5,7 @@ import DeleteSurvey from './DeleteSurvey';
 import EditSurveyForm from './EditSurveyForm';
 import CreateQuestionForm from '../../question/CreateQuestionForm';
 import EditQuestion from '../../question/EditQuestion';
+import { Container, Typography } from '@mui/material';
 
 const CreateSurvey = () => {
     const { slug } = useParams();
@@ -15,15 +16,15 @@ const CreateSurvey = () => {
     if (survey_error) return <p>{survey_error.message}</p>
 
     return (
-        <>
-            <h1>{survey.survey}</h1>
+        <Container sx={{bgcolor:'white'}}>
+            <Typography variant='h3' component={'h3'} sx={{color:'primary.main'}}>{survey.survey} adsdsds</Typography>
             <h2>{survey.description}</h2>
             <DeleteSurvey />
             <EditSurveyForm />
             <CreateQuestionForm />
             <EditQuestion />
-
-        </>
+     
+        </Container>
     )
 }
 

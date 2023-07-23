@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import EditQuestionForm from './EditQuestionForm';
 import useGetQuestions from './hooks/useGetQuestions';
+import { Box } from '@mui/material';
 
 
 
@@ -13,16 +14,16 @@ const EditQuestion = () => {
   // if (questionsLoading) return <p>is loading</p>
 
   return (
-    <div>EditQuestionForm
+    <Box>EditQuestionForm
 
       {questions?.map((question) => (
-        <div key={question.id} className="question">
+        <Box sx={{bgcolor:'primary.main'}} key={question.id} className="question">
 
           <EditQuestionForm question={question} />
-        </div>
+        </Box>
       ))}
 
-    </div>
+    </Box>
   )
 }
 

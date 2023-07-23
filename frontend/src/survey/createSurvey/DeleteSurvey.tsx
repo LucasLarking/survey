@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import useDeleteSurvey from '../hooks/useDeleteSurvey';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 const DeleteSurvey = () => {
     const { slug } = useParams();
@@ -11,12 +12,12 @@ const DeleteSurvey = () => {
     return (
         <>
 
-            <button onClick={e => {
+            <Button color='error' variant='contained'  sx={{my:10}} onClick={e => {
                 e.preventDefault();
                 deleteSurvey.mutate()
                 navigate(`/`)
 
-            }}>DELETE</button>
+            }}>DELETE SURVEY</Button>
 
         </>
     )

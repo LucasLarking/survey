@@ -1,5 +1,5 @@
 
-import { Box } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import EditQuestion from '../question/EditQuestion';
 import FakeQuesiton from '../question/FakeQuesiton';
@@ -18,11 +18,10 @@ const EditSurveyPage = () => {
     if (survey_error) return <p>{survey_error.message}</p>
 
     return (
-        <>
+        <Container sx={{mt:'10vh'}}>
         
-            <h1>{survey.survey}</h1>
-            <h2>{survey.description}</h2>
-            <DeleteSurvey />
+            <Typography variant='h3' component={'h1'} color={'secondary.main'}>{survey.survey}</Typography >
+            <Typography variant='h4' color={'secondary.main'}>{survey.description}</Typography>
             <EditSurveyForm />
 
             {/* <CreateQuestionForm /> */}
@@ -30,8 +29,9 @@ const EditSurveyPage = () => {
              <FakeQuesiton />
         
 
+            <DeleteSurvey />
         <Box marginTop={100}></Box>
-        </>
+        </Container>
     )
 }
 
