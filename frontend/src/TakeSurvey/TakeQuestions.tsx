@@ -8,6 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import useSubmitInteraction from '../interaction/hooks/useSubmitInteraction';
 import useAddInteractionItem from '../interaction/hooks/useAddInteractionItem';
 import TakeQuestion from './TakeQuestion';
+import { motion } from 'framer-motion';
 
 const TakeQuestions = () => {
     const { slug } = useParams();
@@ -53,9 +54,11 @@ const TakeQuestions = () => {
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 10, mt: 15 }}>
 
                 {questions?.map((question) => (
-                    <div key={question.id}>
+                    <motion.div key={question.id}
+                       
+                    >
                         <TakeQuestion question={question} />
-                    </div>
+                    </motion.div>
 
                 ))}
             </Box>
@@ -64,10 +67,10 @@ const TakeQuestions = () => {
             <Box method='post' component={'form'} sx={{ marginTop: 10 }} onSubmit={handleSubmit}>
 
                 <Button variant='contained' type='submit' sx={{
-                    px:5,
-                    color:'black',
+                    px: 5,
+                    color: 'black',
                     bgcolor: 'secondary.main', '&:hover': {
-                        bgcolor: 'secondary.dark', 
+                        bgcolor: 'secondary.dark',
                         color: 'white'
                     },
                 }}>Submit</Button>

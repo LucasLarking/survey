@@ -13,7 +13,7 @@ const TakeQuestion = ({question}: Props) => {
     const [isSelected, setIsSelected] = useState<number>(0)
     return (
         <>
-            <Box key={question.id} className="question">
+            <Box className="question">
                 <Typography variant='h5' component={'h2'} sx={{ color: 'secondary.main' }}>{question.question}</Typography>
                 <TakeOptions question={question} isSelected={isSelected} setIsSelected={setIsSelected} />
             </Box>

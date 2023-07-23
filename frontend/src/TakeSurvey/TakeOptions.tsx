@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import useGetOptions from '../option/hooks/useGetOptions';
 import { Question } from '../question/Question';
 import useAddInteractionItem from '../interaction/hooks/useAddInteractionItem';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 interface Props {
     question: Question;
@@ -19,6 +21,7 @@ const TakeOptions = ({ question, isSelected, setIsSelected }: Props) => {
     const addVote = useAddInteractionItem(survey_id)
     const queryClient = useQueryClient();
 
+    
 
 
     if (error) return <p>{error.message}</p>
@@ -36,7 +39,15 @@ const TakeOptions = ({ question, isSelected, setIsSelected }: Props) => {
                     >
 
                         {data?.map((option, index) => (
-                            <Box key={option.id} className="option">
+                            <motion.div
+                                key={option.id}
+                                className="option"
+                                initial={{ x: -20 }}
+                                whileInView={{ x: 0 }}
+                                whileTap={{ scale: 0.95 }}
+                                whileHover={{ scale: 1.01 }}
+                                viewport={{ once: true }}
+                            >
 
                                 <FormControlLabel value={option.option} control={<Radio />} label={option.option} onClick={(e) => {
                                     setIsSelected(option.id)
@@ -57,7 +68,7 @@ const TakeOptions = ({ question, isSelected, setIsSelected }: Props) => {
                                         boxSizing: 'border-box',
                                         gap: 2,
                                         // bgcolor: 'primary.light',
-                                        transition: '.15s ease-in-out background',
+                                        transition: '.2s ease-in-out background',
                                         bgcolor: isSelected == option.id ? 'secondary.main' : 'primary.main',
                                         p: 3,
                                         my: 2,
@@ -72,7 +83,7 @@ const TakeOptions = ({ question, isSelected, setIsSelected }: Props) => {
                                     }}
                                 />
 
-                            </Box>
+                            </motion.div>
                         ))}
                     </RadioGroup>
 
