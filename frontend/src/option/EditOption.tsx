@@ -3,6 +3,7 @@ import { Question } from '../question/Question';
 import EditOptionForm from './EditOptionForm';
 import useGetOptions from './hooks/useGetOptions';
 import { Box } from '@mui/material';
+import { motion, AnimatePresence } from 'framer-motion';
 
 
 interface Props {
@@ -21,12 +22,21 @@ const EditOption = ({ question }: Props) => {
 
   return (
     <>
+      {/* <AnimatePresence> */}
       {options?.map((option) => (
-        <Box key={option.id} className="option">
-
+        <motion.div key={option.id} className="option"
+        
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: .2 }}
+          whileTap={{ scale: .995 }}
+          whileHover={{ scale: 1.01 }}
+          viewport={{ once: true }}
+        >
           <EditOptionForm option={option} />
-        </Box>
+        </motion.div>
       ))}
+      {/* </AnimatePresence> */}
     </>
   )
 }

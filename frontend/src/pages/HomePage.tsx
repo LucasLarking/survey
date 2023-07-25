@@ -7,15 +7,7 @@ const HomePage = () => {
   return (
     <>
       <Box sx={{ bgcolor: 'white', height: '100vh' }}>
-      <motion.ul animate="hidden" variants={list}>
-        <motion.li variants={item} />
-        <motion.li variants={item} />
-        <motion.li variants={item} />
-      </motion.ul>
-      <motion.div className="test"
-        whileHover={{ scale: 1.2 }}
-        whileTap={{ scale: 1.1 }}
-        animate={{ x: 100 }} />
+
         <Container>
 
           <Typography variant="h1" sx={{ mt: 10 }}>Homepage</Typography>

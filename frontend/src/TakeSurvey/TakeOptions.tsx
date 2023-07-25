@@ -21,7 +21,7 @@ const TakeOptions = ({ question, isSelected, setIsSelected }: Props) => {
     const addVote = useAddInteractionItem(survey_id)
     const queryClient = useQueryClient();
 
-    
+
 
 
     if (error) return <p>{error.message}</p>

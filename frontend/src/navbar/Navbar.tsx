@@ -31,6 +31,7 @@ const Navbar = () => {
               <Box className="leftNav" sx={{ flexGrow: 1, display: 'flex', gap: 2, alignItems: 'center' }}>
 
                 <motion.div
+                viewport={{ once: true }}
                   initial={{ y: 10, opacity: 0 }}
                   whileInView={{ y: 0, opacity: 1 }}
                   transition={{ duration: .2 }}>
@@ -41,6 +42,7 @@ const Navbar = () => {
                   {!username && (
 
                     <motion.div
+                    viewport={{ once: true }}
                       initial={{ y: 10, opacity: 0 }}
                       whileInView={{ y: 0, opacity: 1 }}
                       transition={{ duration: .2, delay: .1 }}>

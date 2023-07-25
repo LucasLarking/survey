@@ -52,8 +52,9 @@ const SurveyForm = () => {
       <Box component={'form'} action="" method="post" onSubmit={handleSubmit(onSubmit)} sx={{ display: 'flex', mt: 2, height: '70px' }}>
 
         <motion.div
-        initial={{ x: -20 }}
-        whileInView={{ x: 0 }}>
+          viewport={{ once: true }}
+          initial={{ x: -20 }}
+          whileInView={{ x: 0 }}>
 
 
           <TextField fullWidth
@@ -75,6 +76,7 @@ const SurveyForm = () => {
 
         {/* <button disabled={!isValid} type="submit">Submit</button> */}
         <motion.div
+          viewport={{ once: true }}
           whileTap={{ scale: 1.1 }}
           whileHover={{ scale: 1 }}
           initial={{ x: -20 }}

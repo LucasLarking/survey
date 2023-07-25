@@ -32,7 +32,10 @@ body {
 
 }
 
-.css-h75vyy-MuiTableCell-root, .css-1vd3ov5-MuiTableCell-root, .css-1jwjceu-MuiTableCell-root, .css-ir1m7m-MuiTableCell-root {
+.css-h75vyy-MuiTableCell-root,
+.css-1vd3ov5-MuiTableCell-root,
+.css-1jwjceu-MuiTableCell-root,
+.css-ir1m7m-MuiTableCell-root {
   border: none !important;
 }
 
@@ -40,4 +43,24 @@ body {
   width: 100px;
   height: 100px;
   background-color: red;
+}
+
+.container {
+  width: 200px;
+  height: 200px;
+  background-color: blue;
+}
+
+.containerItem {
+  width: 50px;
+  height: 50px;
+  background-color: green;
+  margin: 10px;
+
+}
+
+.motionItem {
+  width: 100%;
+  display: block;
+  /* background-color: green; */
 }

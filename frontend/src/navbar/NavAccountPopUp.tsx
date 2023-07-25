@@ -10,6 +10,7 @@ const NavAccountPopUp = () => {
     return (
         <>
             <motion.div
+            viewport={{ once: true }}
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: .2, delay: .5 }}>
