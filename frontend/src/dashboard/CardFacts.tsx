@@ -31,6 +31,15 @@ const CardFacts = ({ interaction_count, interaction_count_this_week, daily_inter
 
     return animation.stop;
   }, []);
+
+  const DailyInteractionCount = useMotionValue(daily_interaction_count > 10 ? daily_interaction_count - (daily_interaction_count * 0.2) : 0);
+  const DailyInteractionRounded = useTransform(InteractionCount, Math.round);
+
+  useEffect(() => {
+    const animation = animate(DailyInteractionCount, daily_interaction_count, { duration: 1 });
+
+    return animation.stop;
+  }, []);
   const parentVariant = {
     visible: {
       x: 0,
@@ -68,7 +77,7 @@ const CardFacts = ({ interaction_count, interaction_count_this_week, daily_inter
               <Typography variant='h5' sx={{ fontWeight: 700 }}>Total Interactions</Typography>
               <Typography variant='h4' sx={{ fontWeight: 700, mt: 2, color: 'secondary.main' }}>
                 <motion.span>{InteractionCountRounded}</motion.span>
-               </Typography>
+              </Typography>
             </Box>
           </motion.div>
 
@@ -76,13 +85,16 @@ const CardFacts = ({ interaction_count, interaction_count_this_week, daily_inter
             <Box sx={{ width: { sm: 'auto', md: '100%' }, bgcolor: 'primary.light', color: 'white', borderRadius: '20px', padding: 3, height: '100%' }}>
               <Typography variant='h5' sx={{ fontWeight: 700 }}>Interactions This Week</Typography>
               <Typography variant='h4' sx={{ fontWeight: 700, mt: 2, color: 'secondary.main' }}>
-              <motion.span>{WeeklyInteractionRounded}</motion.span></Typography>
+                <motion.span>{WeeklyInteractionRounded}</motion.span></Typography>
             </Box>
           </motion.div>
           <motion.div variants={childVariant} className='motionItem'>
             <Box sx={{ width: { sm: 'auto', md: '100%' }, bgcolor: 'primary.light', color: 'white', borderRadius: '20px', padding: 3, height: '100%' }}>
               <Typography variant='h5' sx={{ fontWeight: 700 }}>Daily Interactions</Typography>
-              <Typography variant='h4' sx={{ fontWeight: 700, mt: 2, color: 'secondary.main' }}>{daily_interaction_count}</Typography>
+              <Typography variant='h4' sx={{ fontWeight: 700, mt: 2, color: 'secondary.main' }}>
+              <motion.span>{DailyInteractionRounded}</motion.span>
+               
+                </Typography>
             </Box>
           </motion.div>
         </Box>
