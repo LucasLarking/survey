@@ -7,6 +7,7 @@ import { ExtendedInteraction } from '../interaction/hooks/useGetInteraction';
 import useGetExtendedQuestions from '../question/hooks/useGetExtendedQuestion';
 import useGetSurvey from '../survey/hooks/useGetSurvey';
 import Questions from './Questions';
+import { motion } from 'framer-motion';
 const ResponsePage = () => {
   const { id } = useParams();
   const navigate = useNavigate()
@@ -29,7 +30,14 @@ const ResponsePage = () => {
   return (
 
     <Container sx={{ position: 'relative', marginTop: '10vh' }}>
-      <Typography variant='h3' component={'h1'} sx={{ fontWeight: 700, color: 'secondary.main' }}>{survey?.survey}</Typography>
+      <motion.div
+        viewport={{ once: true }}
+        initial={{ y: 20 }}
+        whileInView={{ y: 0 }}
+        transition={{ duration: .2 }}>
+
+        <Typography variant='h3' component={'h1'} sx={{ fontWeight: 700, color: 'secondary.main' }}>{survey?.survey}</Typography>
+      </motion.div>
       <Typography variant='h5' component={'h1'} sx={{ color: 'white' }}>All answers from {interaction_obj?.user.first_name} {interaction_obj?.user.last_name} - {interaction_obj?.user.email}</Typography>
 
 

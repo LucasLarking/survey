@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Alert, Box, Button, Snackbar, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetQuestions from '../question/hooks/useGetQuestions';
@@ -11,6 +11,8 @@ import TakeQuestion from './TakeQuestion';
 import { motion } from 'framer-motion';
 
 const TakeQuestions = () => {
+    const [showSnackbar, setShowSnackbar] = useState(false)
+    const [snackbarMsg, setSnackbarMsg] = useState('')
     const { slug } = useParams();
     const survey_id = parseInt(slug!);
     const { data: questions, error, isLoading } = useGetQuestions(survey_id);
@@ -39,6 +41,8 @@ const TakeQuestions = () => {
                 onError: (error) => {
                     if (error && error.response && error.response.data && error.response.data[0]) {
                         setErrorMsg(error.response.data[0]);
+                        setSnackbarMsg(error.response.data[0]);
+                        setShowSnackbar(true)
                     } else {
                         setErrorMsg(error.message)
                     }
@@ -50,12 +54,16 @@ const TakeQuestions = () => {
     return (
         <>
 
-
+            <Snackbar open={showSnackbar} autoHideDuration={6000} onClose={() => setShowSnackbar(false)}>
+                <Alert onClose={() => setShowSnackbar(false)} severity="error" sx={{ width: '100%' }}>
+                   {snackbarMsg}
+                </Alert>
+            </Snackbar>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 10, mt: 15 }}>
 
                 {questions?.map((question) => (
                     <motion.div key={question.id}
-                       
+
                     >
                         <TakeQuestion question={question} />
                     </motion.div>

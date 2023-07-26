@@ -367,7 +367,7 @@ class InteractionViewSet(ModelViewSet):
 
         if interaction.interactionItems.count() != interaction.survey.questions.count():
             msg = 'Please answer all questions'
-            raise serializers.ValidationError(str(interaction.interactionItems.count(
+            raise serializers.ValidationError(msg + str(interaction.interactionItems.count(
             )) + '  ' + str(interaction.survey.questions.count()))
 
         serializer = InteractionSubmitSerializer(
