@@ -12,6 +12,7 @@ import LogInPage from "./pages/LogInPage";
 import PrivateRoutes from "./pages/PrivateRoutes";
 import EditSurveyPage from "./pages/EditSyrveyPage";
 import ResponsePage from "./response/ResponsePage";
+import NewHome from "./newhome/NewHome";
 
 
 
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
             { path: 'dashboard/:slug', element: <Dashboard /> },
             { path: 'response/:id/:slug', element: <ResponsePage /> },
             { path: 'confirmation', element: <ConfirmationPage /> },
+            { path: 'newhome', element: <NewHome /> },
 
         ]
     }

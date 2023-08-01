@@ -21,7 +21,10 @@ const theme = createTheme({
       main: '#6ceca8',
 
     }
-  }
+  },
+  typography: {
+    fontFamily: 'Poppins, sans-serif', // 'sans-serif' as a fallback
+  },
 })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

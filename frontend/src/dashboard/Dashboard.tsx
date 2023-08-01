@@ -12,6 +12,7 @@ import useGetTotalSurvey from './hooks/useGetTotalSurvey';
 import FilterResponses from './filterResponses/FilterResponses';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import TinyChart from '../newhome/tinyChart';
 
 
 
@@ -58,7 +59,7 @@ const Dashboard = () => {
         <>
 
 
-
+        
             <Container sx={{ gridArea: 'main', position: 'relative', marginTop: '10vh', display: 'flex', flexDirection: 'column', gap: 10 }} maxWidth='xl'>
 
                 <Header survey={survey.survey} />
